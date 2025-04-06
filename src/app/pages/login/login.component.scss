@@ -1,0 +1,43 @@
+ion-content {
+    h2 {
+        text-align: center;
+        margin: 2rem;
+    }
+
+    ion-avatar {
+        width: 8rem;
+        height: 8rem;
+        margin: auto;
+        cursor: pointer;
+    }
+
+    form {
+        background-color: var(--bg-color-100);
+        border-radius: var(--radius-30);
+        padding: 1rem;
+        margin: auto;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 70%;
+
+        .form-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        ion-item {
+            --background: var(--bg-color-100);
+
+            .item-native {
+                --padding-left: 0 !important;
+            }
+        }
+
+        ion-button {
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+    }
+}

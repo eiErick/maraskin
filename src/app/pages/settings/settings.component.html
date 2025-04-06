@@ -1,0 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Olá! {{ settingsService.auth().name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="logout">
+    <ion-button color="danger" (click)="logout()">
+      <span>Sair</span>
+      <span class="material-symbols-outlined">logout</span>
+    </ion-button>
+  </div>
+</ion-content>

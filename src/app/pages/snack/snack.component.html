@@ -1,0 +1,65 @@
+<app-header title="Merenda" [load]="loadMenu()"/>
+
+<ion-content>
+  <ion-list [inset]="true">
+    @for (snack of snacks(); track $index) {
+      <ion-item class="ion-no-padding">
+        <div class="snack">
+          <span class="name">{{ snack.name }}</span>
+          <div class="actions">
+            <span class="material-symbols-outlined" id="open-modal" expand="block" (click)="openEditSnack(snack)">edit</span>
+            <span class="material-symbols-outlined" (click)="presentDeleteConfirm(snack)">delete</span>
+          </div>
+        </div>
+      </ion-item>
+    }
+  </ion-list>
+
+  <ion-button (click)="openCreateSnack()">
+    <ion-icon name="add" />
+  </ion-button>
+
+  <ion-modal #modal trigger="open-modal" [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelModal()">
+              <ion-icon name="close"/>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ selSnack.name.length === 0 ? 'Criar merenda' : selSnack.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirmModal()">
+              <ion-icon name="checkmark"/>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <form formSnack="ngForm" class="formSnack">
+          <ion-item class="ion-no-padding">
+            <ion-input type="text" fill="solid" label="Nome da merenda" labelPlacement="floating" required [(ngModel)]="selSnack.name" name="name" />
+          </ion-item>
+
+          <ion-item class="ion-no-padding">
+            <ion-input type="number" fill="solid" label="Calorias" labelPlacement="floating" required [(ngModel)]="selSnack.calories" name="calories" />
+          </ion-item>
+
+          <ion-item class="ion-no-padding">
+            <ion-input type="number" fill="solid" label="Carboidratos" labelPlacement="floating" required [(ngModel)]="selSnack.carbohydrates" name="carbohydrates" />
+          </ion-item>
+
+          <ion-item class="ion-no-padding">
+            <ion-input type="number" fill="solid" label="Glicose" labelPlacement="floating" required [(ngModel)]="selSnack.glucose" name="glicose" />
+          </ion-item>
+
+          <ion-item class="ion-no-padding">
+            <ion-toggle [(ngModel)]="selSnack.lactose" name="lactose">Lactose</ion-toggle>
+          </ion-item>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

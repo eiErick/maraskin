@@ -1,0 +1,42 @@
+ion-content {
+    ion-list {
+        background-color: var(--bg-color-100);
+
+        ion-item {
+            .snack {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+
+                .name {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .actions {
+                    display: flex;
+                    gap: .5rem;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    ion-button {
+        position: fixed;
+        top: 100%;
+        left: 100%;
+        transform: translate(-120%, -120%);
+    }
+
+    .formSnack {
+        background-color: var(--bg-color-100);
+        padding: 1rem;
+        border-radius: var(--radius-10);
+
+        ion-item {
+            --background: var(--bg-color-100);
+        }
+    }
+}

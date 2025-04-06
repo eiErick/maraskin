@@ -35,3 +35,67 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+:root {
+    --gray: #74777F;
+    --bg-color-100: #ffffff;
+    --bg-color-300: #f2f2f2;
+    --bg-color-500: #e6e6e6;
+    --bg-color-700: #cccccc;
+    --bg-color-900: #b3b3b3;
+    --primary-color: #FF6600;
+    --pg-color-100: #ffe6d5;
+    --pg-color-300: #ffccaa;
+    --pg-color-500: #ff9966;
+    --pg-color-700: #ff8533;
+    --pg-color-900: #ff6600;
+    --radius-10: 0.5rem;
+    --radius-30: 1rem;
+    --radius-50: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --gray: #74777F;
+        --bg-color-100: #1e1e1e;
+        --bg-color-300: #2a2a2a;
+        --bg-color-500: #383838;
+        --bg-color-700: #4a4a4a;
+        --bg-color-900: #5c5c5c;
+        --primary-color: #FF6600;
+        --pg-color-100: #1a0a00;
+        --pg-color-300: #331a00;
+        --pg-color-500: #994d00;
+        --pg-color-700: #cc5c00;
+        --pg-color-900: #ff6600;
+    }
+}  
+  
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: 'Adwaita Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    outline: none;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto,"Helvetica Neue", sans-serif;
+}
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

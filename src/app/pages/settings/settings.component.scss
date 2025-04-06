@@ -1,0 +1,20 @@
+ion-content {
+    .logout {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -110%);
+    }
+}
+
+.logout {
+    width: 50%;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -110%);
+
+    ion-button {
+        width: 100%;
+    }
+}

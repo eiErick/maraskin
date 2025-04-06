@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid var(--gray);
+    padding: 5px;
+    border-radius: 12px;
+    height: 100%;
+    gap: 10px;
+}
+
+.day {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    width: 250px;
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.snack, .lunch {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 18px;
+
+    .description {
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+}
+
+.btns {
+    width: 90%;
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    margin-bottom: 5px;
+
+    .material-symbols-outlined {
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+}

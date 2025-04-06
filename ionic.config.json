@@ -1,5 +1,7 @@
 {
   "name": "maraskin",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular-standalone"
 }
