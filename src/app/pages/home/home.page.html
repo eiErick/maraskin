@@ -3,7 +3,7 @@
 <ion-content [fullscreen]="true" id="main-content" class="ion-page" main>
   <div class="container-menu">
     @for (menu of menus(); track $index) {
-      <app-card [lunches]="lunches()" [menu]="menu" [snacks]="snacks()" />
+      <app-card [lunches]="lunches()" [menu]="menu" [snacks]="snacks()" (changedMenu)="changeMenu($event)" />
     }
   </div>
 </ion-content>

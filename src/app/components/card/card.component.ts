@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Lunch, Menu, Snack } from 'src/app/models/menu';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { UpperCasePipe } from '@angular/common';
@@ -20,6 +20,7 @@ export class CardComponent {
   public menu = input.required<Menu>();
   public snacks = input.required<Snack[]>();
   public lunches = input.required<Lunch[]>();
+  public changedMenu = output<Menu>();
 
   constructor(
     private menuService: MenuService,
@@ -35,6 +36,10 @@ export class CardComponent {
     }
 
     this.menuService.changeMenu(newMenu);
+  }
+
+  public changeMenu(menu: Menu) {
+    this.changedMenu.emit(menu);
   }
 
   public openNutritionalInfoDialog(menu: Menu) {

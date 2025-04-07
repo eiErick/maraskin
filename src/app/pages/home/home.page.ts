@@ -33,6 +33,10 @@ export class HomePage {
     private settingService: SettingsService,
   ) {}
 
+  public changeMenu(menu: Menu) {
+    this.menuService.changeMenu(menu);
+  }
+
   public openDialogCreateMeal() {
     // const mealDialogOpen: MealDialogOpen = { 
     //   snack: { name: '', calories: 0, gluten: false, lactose: false, id: '' },

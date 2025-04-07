@@ -126,6 +126,7 @@ export class MenuService {
     }).subscribe({
       next: (res) => {
         this.menu.update(menus => menus.map(m => m.id === menu.id ? { ...menu } : m));
+        this.saveMenu();
       }
     });
   }
@@ -275,10 +276,8 @@ export class MenuService {
     this.saveMeals();
   }
 
-  public changeMenu(newMenuDay: Menu) {
+  public changeMenu(newMenuDay: Menu) {    
     this.putServeMenu(newMenuDay);
-    // this.menu.update(menu => menu.map(m => m.id === newMenuDay.id ? { ...newMenuDay } : m));
-    this.saveMenu();
   }
 
   public deleteLuch(lunch: Lunch) {
