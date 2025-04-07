@@ -28,7 +28,7 @@
               <ion-icon name="close"/>
             </ion-button>
           </ion-buttons>
-          <ion-title>{{ selLunch.name.length === 0 ? 'Criar merenda' : selLunch.name }}</ion-title>
+          <ion-title>{{ selLunch.name.length === 0 ? 'Criar almoço' : selLunch.name }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="confirmModal()">
               <ion-icon name="checkmark"/>
@@ -40,7 +40,7 @@
       <ion-content class="ion-padding">
         <form formLunch="ngForm" class="formLunch">
           <ion-item class="ion-no-padding">
-            <ion-input type="text" fill="solid" label="Nome da merenda" labelPlacement="floating" required [(ngModel)]="selLunch.name" name="name" />
+            <ion-input type="text" fill="solid" label="Nome da almoço" labelPlacement="floating" required [(ngModel)]="selLunch.name" name="name" />
           </ion-item>
 
           <ion-item class="ion-no-padding">
