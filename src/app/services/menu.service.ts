@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Lunch, Menu, MenuDatabase, Snack } from '../models/menu';
 import { StorageService } from './storage.service';
 import { Observable } from 'rxjs';
+import { ToastController } from '@ionic/angular/standalone';
 import Backendless from 'backendless';
 import { Auth } from '../models/auth';
 
@@ -30,6 +31,7 @@ export class MenuService {
   
   constructor(
     private storageService: StorageService,
+    private toastController: ToastController
   ) {
     this.loadLocalMenu();
   }
@@ -110,7 +112,6 @@ export class MenuService {
         this.lunches.set(lunches);
 
         console.log(this.snacks());
-        
       }
     });
   }
@@ -168,7 +169,9 @@ export class MenuService {
         observer.complete();
       }).catch(err => observer.error(err));
     }).subscribe({
-      next: (res) => {}
+      next: (res) => {
+        this.presentToast('Item adicionado com sucesso!', 'success');
+      }
     });
   }
 
@@ -285,6 +288,7 @@ export class MenuService {
       if (l.id === lunch.id) {
         this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
         this.saveMeals();
+        this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
       }
     });
   }
@@ -294,6 +298,7 @@ export class MenuService {
       if (s.id === snack.id) {
         this.snacks.update(snacks => snacks.filter((item, i) => i !== index));
         this.saveMeals();
+        this.presentToast(`${snack.name} foi deletado com sucesso!`, 'warning');
       }
     });
   }
@@ -301,6 +306,23 @@ export class MenuService {
   private saveMenu() {
     this.storageService.save('menu', this.menu());
   }
+
+  private async presentToast(text: string, color: 'success' | 'danger' | 'warning') {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000,
+      position: 'bottom',
+      color: color,
+      buttons: [
+        {
+          text: 'Fechar',
+          role: 'cancel'
+        }
+      ]
+    });
+  
+    await toast.present();
+  }  
   
   private saveMeals() {    
     this.storageService.save('lunches', this.lunches());
