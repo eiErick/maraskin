@@ -12,6 +12,7 @@ export interface MenuDatabase {
     lactose: boolean;
     glucose: number;
     id: string;
+    objectId: string;
     type: 'snack' | 'lunch';
 }
 
@@ -21,6 +22,7 @@ export interface Snack {
     carbohydrates: number;
     lactose: boolean;
     glucose: number;
+    objectId: string;
     id: string;
 }
 
@@ -30,5 +32,6 @@ export interface Lunch {
     carbohydrates: number;
     lactose: boolean;
     glucose: number;
+    objectId: string;
     id: string;
 }
