@@ -37,37 +37,37 @@ export class MenuService {
   }
 
   private loadLocalMenu() {
-    const snacks = this.storageService.get('snacks');
-    const lunches = this.storageService.get('lunches');
-    const menu = this.storageService.get('menu');
+    // const snacks = this.storageService.get('snacks');
+    // const lunches = this.storageService.get('lunches');
+    // const menu = this.storageService.get('menu');
 
-    if (snacks) {
-      this.snacks.set(snacks);
-    } else {
-      this.snacks.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
-      this.saveMeals();
-    }
+    // if (snacks) {
+    //   this.snacks.set(snacks);
+    // } else {
+    //   this.snacks.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
+    //   this.saveMeals();
+    // }
 
-    if (lunches) {
-      this.lunches.set(lunches);
-    } else {
-      this.lunches.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
-      this.saveMeals();
-    }
+    // if (lunches) {
+    //   this.lunches.set(lunches);
+    // } else {
+    //   this.lunches.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
+    //   this.saveMeals();
+    // }
 
-    if (menu) {
-      this.menu.set(menu);
-    } else {
-      this.menu.set([
-        { day: 'segunda', id: 'mon', idLunch: 'empty', idSnack: 'empty' },
-        { day: 'terça', id: 'tue', idLunch: 'empty', idSnack: 'empty' },
-        { day: 'quarta', id: 'wed', idLunch: 'empty', idSnack: 'empty' },
-        { day: 'quinta', id: 'thu', idLunch: 'empty', idSnack: 'empty' },
-        { day: 'sexta', id: 'fri', idLunch: 'empty', idSnack: 'empty' },
-      ]);
+    // if (menu) {
+    //   this.menu.set(menu);
+    // } else {
+    //   this.menu.set([
+    //     { day: 'segunda', id: 'mon', idLunch: 'empty', idSnack: 'empty' },
+    //     { day: 'terça', id: 'tue', idLunch: 'empty', idSnack: 'empty' },
+    //     { day: 'quarta', id: 'wed', idLunch: 'empty', idSnack: 'empty' },
+    //     { day: 'quinta', id: 'thu', idLunch: 'empty', idSnack: 'empty' },
+    //     { day: 'sexta', id: 'fri', idLunch: 'empty', idSnack: 'empty' },
+    //   ]);
       
-      this.saveMenu();
-    }
+    //   this.saveMenu();
+    // }
 
     this.getServeMenu();
     this.getServeMenuDatabase();
@@ -110,8 +110,13 @@ export class MenuService {
 
         this.snacks.set(snacks);
         this.lunches.set(lunches);
-
-        console.log(this.snacks());
+      },
+      error: () => {
+        this.presentToast('Erro ao carregar cardápio :/', 'danger');
+        this.load.set(false);
+      },
+      complete: () => {        
+        this.load.set(false);
       }
     });
   }
@@ -171,6 +176,9 @@ export class MenuService {
     }).subscribe({
       next: (res) => {
         this.presentToast('Item adicionado com sucesso!', 'success');
+      },
+      error: () => {
+        this.presentToast('Erro ao adicionar item :/', 'danger');
       }
     });
   }
@@ -196,6 +204,53 @@ export class MenuService {
           this.menu.set(menu);
         }
       });
+    });
+  }
+
+  private deleteServeSnack(snack: Snack) {
+    const idSnack = (snack as any).objectId;
+  
+    new Observable(observer => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack })
+        .then((result) => {
+          observer.next(result);
+          observer.complete();
+        })
+        .catch(err => observer.error(err));
+    }).subscribe({
+      next: () => {
+        this.snacks.update(snacks => snacks.filter(s => s.id !== snack.id));
+      },
+      error: (err) => {
+        this.presentToast(`Erro ao deletar ${snack.name} :/`, 'danger');
+      }
+    });
+  }
+
+  private deleteServeLunch(lunch: Lunch) {
+    const idSnack = (lunch as any).objectId;
+  
+    new Observable(observer => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack })
+        .then((result) => {
+          observer.next(result);
+          observer.complete();
+        })
+        .catch(err => observer.error(err));
+    }).subscribe({
+      next: () => {
+        this.snacks.update(snacks => snacks.filter(s => s.id !== lunch.id));
+        // this.lunches().forEach((l, index) => {
+        //   if (l.id === lunch.id) {
+          // this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
+          this.saveMeals();
+          this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
+        //   }
+        // });
+      },
+      error: () => {
+        this.presentToast(`Erro ao deletar ${lunch.name} :/`, 'danger');
+      }
     });
   }
 
@@ -283,17 +338,19 @@ export class MenuService {
     this.putServeMenu(newMenuDay);
   }
 
-  public deleteLuch(lunch: Lunch) {
-    this.lunches().forEach((l, index) => {
-      if (l.id === lunch.id) {
-        this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
-        this.saveMeals();
-        this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
-      }
-    });
+  public deleteLunch(lunch: Lunch) {
+    this.deleteServeLunch(lunch);
+
+    // this.lunches().forEach((l, index) => {
+    //   if (l.id === lunch.id) {
+    //     this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
+    //     this.saveMeals();
+    //     this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
+    //   }
+    // });
   }
 
-  public deleteLunch(snack: Snack) {
+  public deleteSanck(snack: Snack) {
     this.snacks().forEach((s, index) => {
       if (s.id === snack.id) {
         this.snacks.update(snacks => snacks.filter((item, i) => i !== index));

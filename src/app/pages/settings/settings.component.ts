@@ -1,10 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform } from '@ionic/angular/standalone';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonLabel, IonToggle } from '@ionic/angular/standalone';
 import { caretBack, chevronBackOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { AuthService } from 'src/app/services/auth.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -17,10 +18,15 @@ import { Subscription } from 'rxjs';
     IonContent,
     IonButton,
     IonButtons,
+    IonItem,
+    IonLabel,
+    IonToggle,
+    FormsModule
   ]
 })
-export class SettingsComponent implements OnDestroy {
+export class SettingsComponent implements OnInit, OnDestroy {
   private backButtonSubscription: Subscription;
+  public darkMode: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -38,6 +44,12 @@ export class SettingsComponent implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.darkMode = localStorage.getItem('theme') === 'dark' || prefersDark.matches;
+    this.setTheme();
+  }
+
   ngOnDestroy() {
     this.backButtonSubscription.unsubscribe();
   }
@@ -49,5 +61,15 @@ export class SettingsComponent implements OnDestroy {
   public logout() {
     this.authService.logout();
     this.closeModal();
+  }
+
+  public toggleTheme() {
+    this.darkMode = !this.darkMode;
+    this.setTheme();
+    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+  }
+
+  public setTheme() {    
+    document.body.classList.toggle('ion-palette-dark', this.darkMode);
   }
 }

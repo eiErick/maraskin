@@ -1,7 +1,8 @@
 {
   "name": "maraskin",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular-standalone"
 }

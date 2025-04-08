@@ -10,6 +10,12 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div>
+    <ion-item>
+      <ion-label>Modo Escuro</ion-label>
+      <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleTheme()"></ion-toggle>
+    </ion-item>    
+  </div>
   <div class="logout">
     <ion-button color="danger" (click)="logout()">
       <span>Sair</span>

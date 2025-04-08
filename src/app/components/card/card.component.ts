@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { Lunch, Menu, Snack } from 'src/app/models/menu';
-import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
+import { IonSelect, IonSelectOption, AlertController } from '@ionic/angular/standalone';
 import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MenuService } from 'src/app/services/menu.service';
@@ -24,6 +24,7 @@ export class CardComponent {
 
   constructor(
     private menuService: MenuService,
+    private alertController: AlertController
   ) { }
   
   public changeMeal(menu: Menu, type: 'snack' | 'lunch', id: string) {
@@ -42,9 +43,22 @@ export class CardComponent {
     this.changedMenu.emit(menu);
   }
 
-  public openNutritionalInfoDialog(menu: Menu) {
-    // const dialogRef = this.dialog.open(NutritionalInfoDialogComponent, {
-    //   data: menu,
-    // });
+  public async openNutritionalInfoDialog(menu: Menu) {
+    const snack = this.menuService.getSnackId(menu.idSnack);
+    const lunch = this.menuService.getLunchId(menu.idLunch);
+
+    const alert = await this.alertController.create({
+      header: 'Informações nutricionais',
+      message: `
+        Nome: ${ snack?.name }
+        Calorias: ${ snack?.calories }
+        Carboidratos: ${ snack?.carbohydrates }
+        Contém Lactose: ${ snack?.lactose }
+        Glicose: ${ snack?.glucose }
+      `,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
   }
 }
