@@ -1,4 +1,4 @@
-import { Component, computed, OnInit } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform } from '@ionic/angular/standalone';
 import { Snack } from 'src/app/models/menu';
@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { add, checkmark, close } from 'ionicons/icons';
 import { AlertController } from '@ionic/angular';
 import { HeaderComponent } from "../../components/header/header.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-snack',
@@ -29,9 +30,10 @@ import { HeaderComponent } from "../../components/header/header.component";
     HeaderComponent
   ],
 })
-export class SnackComponent implements OnInit {
+export class SnackComponent implements OnInit, OnDestroy {
   public snacks = computed(() => this.menuService.snacks());
   public loadMenu = computed(() => this.menuService.load());
+  private backButtonSubscription: Subscription;
   public selSnack: Snack;
   public deletedSnackId: string = '';
 
@@ -71,11 +73,15 @@ export class SnackComponent implements OnInit {
       name: ''
     }
 
-    this.platform.backButton.subscribeWithPriority(10000, async () => {      
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {      
       if (this.isModalOpen) {
         this.closeModal();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe()
   }
 
   public setOpen(isOpen: boolean) {

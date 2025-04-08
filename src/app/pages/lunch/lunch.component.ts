@@ -1,12 +1,13 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform } from '@ionic/angular/standalone';
 import { Lunch } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { addIcons } from 'ionicons';
 import { add, checkmark, close } from 'ionicons/icons';
 import { AlertController } from '@ionic/angular';
 import { HeaderComponent } from "../../components/header/header.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lunch',
@@ -29,9 +30,10 @@ import { HeaderComponent } from "../../components/header/header.component";
     HeaderComponent
   ],
 })
-export class LunchComponent {
+export class LunchComponent implements OnDestroy {
   public lunches = computed(() => this.menuService.lunches());
   public loadMenu = computed(() => this.menuService.load());
+  private backButtonSubscription: Subscription;
   public selLunch: Lunch;
   public deletedLunchId: string = '';
 
@@ -55,6 +57,7 @@ export class LunchComponent {
   }
 
   constructor (
+    private platform: Platform,
     private menuService: MenuService,
     private menuCtrl: MenuController,
     private alertController: AlertController
@@ -69,6 +72,16 @@ export class LunchComponent {
       lactose: false,
       name: ''
     }
+
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {      
+      if (this.isModalOpen) {
+        this.closeModal();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe()
   }
 
   public setOpen(isOpen: boolean) {
