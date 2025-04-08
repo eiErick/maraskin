@@ -30,7 +30,7 @@ import { Subscription } from 'rxjs';
     HeaderComponent
   ],
 })
-export class SnackComponent implements OnInit, OnDestroy {
+export class SnackComponent implements OnDestroy {
   public snacks = computed(() => this.menuService.snacks());
   public loadMenu = computed(() => this.menuService.load());
   private backButtonSubscription: Subscription;
@@ -49,12 +49,6 @@ export class SnackComponent implements OnInit, OnDestroy {
   ];
 
   isModalOpen = false;
-
-  presentingElement!: HTMLElement | null;
-
-  ngOnInit() {
-    this.presentingElement = document.querySelector('.ion-page');
-  }
 
   constructor (
     private platform: Platform,

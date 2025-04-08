@@ -50,12 +50,6 @@ export class LunchComponent implements OnDestroy {
 
   isModalOpen = false;
 
-  presentingElement!: HTMLElement | null;
-
-  ngOnInit() {
-    this.presentingElement = document.querySelector('.ion-page');
-  }
-
   constructor (
     private platform: Platform,
     private menuService: MenuService,

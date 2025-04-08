@@ -21,7 +21,7 @@
     <ion-icon name="add" />
   </ion-button>
 
-  <ion-modal #modal trigger="open-modal" [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()" [presentingElement]="presentingElement">
+  <ion-modal #modal trigger="open-modal" [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()">
     <ng-template>
       <ion-header class="ion-no-border">
         <ion-toolbar>
