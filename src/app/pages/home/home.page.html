@@ -4,6 +4,8 @@
   <div class="container-menu">
     @for (menu of menus(); track $index) {
       <app-card [lunches]="lunches()" [menu]="menu" [snacks]="snacks()" (changedMenu)="changeMenu($event)" />
+    } @empty {
+      <h2 class="error">Erro ao obter dados :/</h2>
     }
   </div>
 </ion-content>
