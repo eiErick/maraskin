@@ -1,6 +1,6 @@
 import { Component, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform } from '@ionic/angular/standalone';
 import { Snack } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { addIcons } from 'ionicons';
@@ -55,6 +55,7 @@ export class SnackComponent implements OnInit {
   }
 
   constructor (
+    private platform: Platform,
     private menuService: MenuService,
     private menuCtrl: MenuController,
     private alertController: AlertController
@@ -69,6 +70,12 @@ export class SnackComponent implements OnInit {
       lactose: false,
       name: ''
     }
+
+    this.platform.backButton.subscribeWithPriority(10000, async () => {      
+      if (this.isModalOpen) {
+        this.closeModal();
+      }
+    });
   }
 
   public setOpen(isOpen: boolean) {
