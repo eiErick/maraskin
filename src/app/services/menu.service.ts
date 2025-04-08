@@ -105,7 +105,7 @@ export class MenuService {
         let lunches: Lunch[] = [];
         
         database.forEach((data) => {
-          data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, lactose: data.lactose, name: data.name }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, lactose: data.lactose, name: data.name });
+          data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name });
         });
 
         this.snacks.set(snacks);
@@ -207,52 +207,44 @@ export class MenuService {
     });
   }
 
-  private deleteServeSnack(snack: Snack) {
-    const idSnack = (snack as any).objectId;
-  
+  public deleteSnack(snack: Snack) {
+    const idSnack = snack.objectId;
+
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack })
-        .then((result) => {
-          observer.next(result);
-          observer.complete();
-        })
-        .catch(err => observer.error(err));
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack }).then(result => {
+        observer.next(result);
+        observer.complete();
+      }).catch(err => observer.error(err));
     }).subscribe({
       next: () => {
-        this.snacks.update(snacks => snacks.filter(s => s.id !== snack.id));
+        this.snacks.update(snacks => snacks.map(s => s.id === snack.id ? { ...snack } : s));
+        this.presentToast(`Sucesso ao deletar ${snack.name}`, 'success');
       },
-      error: (err) => {
+      error: () => {
         this.presentToast(`Erro ao deletar ${snack.name} :/`, 'danger');
       }
     });
   }
-
-  private deleteServeLunch(lunch: Lunch) {
-    const idSnack = (lunch as any).objectId;
   
+  public deleteLunch(lunch: Lunch) {
+    const idLunch = lunch.objectId;
+
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack })
-        .then((result) => {
-          observer.next(result);
-          observer.complete();
-        })
-        .catch(err => observer.error(err));
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idLunch }).then(result => {
+        observer.next(result);
+        observer.complete();
+      }).catch(err => observer.error(err));
     }).subscribe({
       next: () => {
-        this.snacks.update(snacks => snacks.filter(s => s.id !== lunch.id));
-        // this.lunches().forEach((l, index) => {
-        //   if (l.id === lunch.id) {
-          // this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
-          this.saveMeals();
-          this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
-        //   }
-        // });
+        this.lunches.update(lunches => lunches.map(l => l.id === lunch.id ? { ...lunch } : l));
+        this.presentToast(`Sucesso ao deletar ${lunch.name}`, 'success');
       },
       error: () => {
         this.presentToast(`Erro ao deletar ${lunch.name} :/`, 'danger');
       }
     });
   }
+  
 
   private deleteAllMenusServer() {
     if (this.menu()) {
@@ -300,7 +292,7 @@ export class MenuService {
     } else {
       snack.id = this.makeID();
 
-      const menuDatabase: MenuDatabase = { calories: snack.calories, carbohydrates: snack.carbohydrates, glucose: snack.glucose, id: snack.id, lactose: snack.lactose, name: snack.name, type: 'snack' };
+      const menuDatabase: MenuDatabase = { calories: snack.calories, carbohydrates: snack.carbohydrates, glucose: snack.glucose, id: snack.id, objectId: snack.objectId, lactose: snack.lactose, name: snack.name, type: 'snack' };
 
       this.addDataDatabaseServer(menuDatabase);
       this.snacks.update(snacks => [ ...snacks, snack ]);
@@ -316,7 +308,7 @@ export class MenuService {
     } else {
       lunch.id = this.makeID();
 
-      const menuDatabase: MenuDatabase = { calories: lunch.calories, carbohydrates: lunch.carbohydrates, glucose: lunch.glucose, id: lunch.id, lactose: lunch.lactose, name: lunch.name, type: 'snack' };
+      const menuDatabase: MenuDatabase = { calories: lunch.calories, carbohydrates: lunch.carbohydrates, glucose: lunch.glucose, id: lunch.id, objectId: lunch.objectId, lactose: lunch.lactose, name: lunch.name, type: 'snack' };
 
       this.addDataDatabaseServer(menuDatabase);
       this.lunches.update(lunches => [ ...lunches, lunch ]);
@@ -336,28 +328,6 @@ export class MenuService {
 
   public changeMenu(newMenuDay: Menu) {    
     this.putServeMenu(newMenuDay);
-  }
-
-  public deleteLunch(lunch: Lunch) {
-    this.deleteServeLunch(lunch);
-
-    // this.lunches().forEach((l, index) => {
-    //   if (l.id === lunch.id) {
-    //     this.lunches.update(lunches => lunches.filter((item, i) => i !== index));
-    //     this.saveMeals();
-    //     this.presentToast(`${lunch.name} foi deletado com sucesso!`, 'warning');
-    //   }
-    // });
-  }
-
-  public deleteSanck(snack: Snack) {
-    this.snacks().forEach((s, index) => {
-      if (s.id === snack.id) {
-        this.snacks.update(snacks => snacks.filter((item, i) => i !== index));
-        this.saveMeals();
-        this.presentToast(`${snack.name} foi deletado com sucesso!`, 'warning');
-      }
-    });
   }
 
   private saveMenu() {

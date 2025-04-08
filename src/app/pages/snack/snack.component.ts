@@ -69,6 +69,7 @@ export class SnackComponent implements OnInit, OnDestroy {
       carbohydrates: 0,
       glucose: 0,
       id: '',
+      objectId: '',
       lactose: false,
       name: ''
     }
@@ -146,11 +147,11 @@ export class SnackComponent implements OnInit, OnDestroy {
   }
 
   private deleteSnack(snack: Snack) {
-    this.menuService.deleteLunch(snack);
+    this.menuService.deleteSnack(snack);
   }
   
   public clearSelectedSnack() {
     this.setOpen(false);
-    this.selSnack = { calories: 0, carbohydrates: 0, glucose: 0, id: '', lactose: false, name: '' };
+    this.selSnack = { calories: 0, carbohydrates: 0, glucose: 0, id: '', objectId: '', lactose: false, name: '' };
   }
 }

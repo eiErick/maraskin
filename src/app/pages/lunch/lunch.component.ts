@@ -69,6 +69,7 @@ export class LunchComponent implements OnDestroy {
       carbohydrates: 0,
       glucose: 0,
       id: '',
+      objectId: '',
       lactose: false,
       name: ''
     }
@@ -151,6 +152,6 @@ export class LunchComponent implements OnDestroy {
   
   public clearSelectedLunch() {
     this.setOpen(false);
-    this.selLunch = { calories: 0, carbohydrates: 0, glucose: 0, id: '', lactose: false, name: '' };
+    this.selLunch = { calories: 0, carbohydrates: 0, glucose: 0, id: '', objectId: '', lactose: false, name: '' };
   }
 }
