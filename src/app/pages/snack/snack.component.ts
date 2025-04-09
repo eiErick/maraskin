@@ -1,6 +1,6 @@
-import { Component, computed, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform, ModalController } from '@ionic/angular/standalone';
 import { Snack } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { addIcons } from 'ionicons';
@@ -54,6 +54,7 @@ export class SnackComponent implements OnDestroy {
     private platform: Platform,
     private menuService: MenuService,
     private menuCtrl: MenuController,
+    private modalCtrl: ModalController,
     private alertController: AlertController
   ) {
     addIcons({ add, checkmark, close });
@@ -68,8 +69,9 @@ export class SnackComponent implements OnDestroy {
       name: ''
     }
 
-    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {      
-      if (this.isModalOpen) {
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {
+      const modal = await this.modalCtrl.getTop();
+      if (modal) {
         this.closeModal();
       }
     });
