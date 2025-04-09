@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonLabel, IonToggle } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonToggle } from '@ionic/angular/standalone';
 import { caretBack, chevronBackOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,14 +19,13 @@ import { FormsModule } from '@angular/forms';
     IonButton,
     IonButtons,
     IonItem,
-    IonLabel,
     IonToggle,
     FormsModule
   ]
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnDestroy {
   private backButtonSubscription: Subscription;
-  public darkMode: boolean = false;
+  public isDarkMode: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -42,12 +41,34 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.closeModal();
       }
     });
+
+    this.initTheme();
   }
 
-  ngOnInit() {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.darkMode = localStorage.getItem('theme') === 'dark' || prefersDark.matches;
-    this.setTheme();
+  initTheme() {
+    const storedTheme = localStorage.getItem('dark-mode');
+    if (storedTheme === null) {
+      document.body.classList.add('dark');
+      localStorage.setItem('dark-mode', 'true');
+      this.isDarkMode = true;
+    } else {
+      this.isDarkMode = storedTheme === 'true';
+      if (this.isDarkMode) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    }
+  }
+
+  toggleTheme(event: any) {
+    this.isDarkMode = event.detail.checked;
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('dark-mode', this.isDarkMode.toString());
   }
 
   ngOnDestroy() {
@@ -61,15 +82,5 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public logout() {
     this.authService.logout();
     this.closeModal();
-  }
-
-  public toggleTheme() {
-    this.darkMode = !this.darkMode;
-    this.setTheme();
-    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
-  }
-
-  public setTheme() {    
-    document.body.classList.toggle('ion-palette-dark', this.darkMode);
   }
 }
