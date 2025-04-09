@@ -13,22 +13,37 @@ ion-content {
         }
     }
 
+    .contributors {
+        padding: 1rem;
+        margin-top: 1rem;
+        background-color: var(--bg-color-100);
+        border-radius: var(--radius-30);
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        flex-direction: column;
+
+        span {
+            margin: .5rem;
+        }
+    }
+
     .logout {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -110%);
+        // position: absolute;
+        // top: 100%;
+        // left: 50%;
+        // transform: translate(-50%, -110%);
     }
 }
 
-.logout {
-    width: 50%;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -110%);
+// .logout {
+//     width: 50%;
+//     position: absolute;
+//     top: 100%;
+//     left: 50%;
+//     transform: translate(-50%, -110%);
 
-    ion-button {
-        width: 100%;
-    }
-}
+//     ion-button {
+//         width: 100%;
+//     }
+// }

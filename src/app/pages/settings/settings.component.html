@@ -6,6 +6,12 @@
       </ion-button>
     </ion-buttons>
     <ion-title>Olá! {{ settingsService.auth().name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="logoutConfirm()">
+        <span>Sair</span>
+        <span class="material-symbols-outlined">logout</span>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,10 +21,17 @@
       <ion-toggle [(ngModel)]="isDarkMode" (ionChange)="toggleTheme($event)" labelPlacement="">Modo escuro</ion-toggle>
     </ion-item>
   </div>
-  <div class="logout">
-    <ion-button color="danger" (click)="logout()">
-      <span>Sair</span>
-      <span class="material-symbols-outlined">logout</span>
-    </ion-button>
+
+  <div class="contributors">
+    <span>Desenvolvedores</span>
+    <a target="_blank" href="https://www.instagram.com/eierickdasilva">Érick da Silva</a>
+    <a target="_blank" href="https://www.instagram.com/iagomenezes37">Iago Menezes</a>
+    <a target="_blank" href="https://www.instagram.com/kiammota">Kiam Mota</a>
+    <span>Designer</span>
+    <a target="_blank" href="https://www.instagram.com/gustavolima_sem_o_t">Gustavo Lima</a>
+    <span>Contribuidores</span>
+    <a target="_blank" href="https://www.instagram.com/davi_barbosa3009">Davi Barbosa</a>
+    <span>Powered by</span>
+    <a target="_blank" href="https://www.instagram.com/onrangedev">Onrangedev</a>
   </div>
 </ion-content>
