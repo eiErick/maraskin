@@ -42,7 +42,7 @@ export class SettingsComponent implements OnDestroy {
       }
     });
 
-    this.initTheme();
+    // this.initTheme();
   }
 
   initTheme() {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { DarkMode } from '@aparajita/capacitor-dark-mode';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +11,20 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 export class AppComponent {
   public darkMode = false;
   
-  constructor() {
+  constructor(
+    private platform: Platform
+  ) {
     this.initializeApp();
   }
 
-  initializeApp() {
+  async initializeApp() {
     this.setStatusBarStyle();
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.setStatusBarStyle);
+    await this.platform.ready();
+    try {
+      await DarkMode.init();
+    } catch (error) {
+      console.error('Erro ao inicializar o DarkMode:', error);
+    }
   }
 
   setStatusBarStyle = async () => {

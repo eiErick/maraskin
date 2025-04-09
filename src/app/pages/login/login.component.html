@@ -22,6 +22,6 @@
       <ion-input type="text" fill="solid" label="APP KEY" labelPlacement="floating" required [(ngModel)]="appkey" name="appKey" />
     </ion-item>
 
-    <ion-button color="success" [disabled]="loginForm.invalid" (click)="login()">Entrar</ion-button>
+    <ion-button [disabled]="loginForm.invalid" (click)="login()">Entrar</ion-button>
   </form>
 </ion-content>
