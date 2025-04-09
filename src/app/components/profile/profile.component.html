@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Escolha um Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container-avatars">
+    @for (avatar of avatars; track $index) {
+      <div class="avatar">
+        <!-- <ion-img [src]="avatar.url" /> -->
+      </div>
+    }
+  </div>
+</ion-content>
