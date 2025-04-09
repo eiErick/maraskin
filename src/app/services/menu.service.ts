@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 import { Lunch, Menu, MenuDatabase, Snack } from '../models/menu';
-import { StorageService } from './storage.service';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular/standalone';
 import Backendless from 'backendless';
@@ -30,45 +29,8 @@ export class MenuService {
   private NAME_SERVE_MENU_DATABASE = 'menu-database';
   
   constructor(
-    private storageService: StorageService,
     private toastController: ToastController
   ) {
-    this.loadLocalMenu();
-  }
-
-  private loadLocalMenu() {
-    // const snacks = this.storageService.get('snacks');
-    // const lunches = this.storageService.get('lunches');
-    // const menu = this.storageService.get('menu');
-
-    // if (snacks) {
-    //   this.snacks.set(snacks);
-    // } else {
-    //   this.snacks.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
-    //   this.saveMeals();
-    // }
-
-    // if (lunches) {
-    //   this.lunches.set(lunches);
-    // } else {
-    //   this.lunches.set([{ name: '---', calories: 0, carbohydrates: 0, glucose: 0, id: this.makeID(), lactose: false }]);
-    //   this.saveMeals();
-    // }
-
-    // if (menu) {
-    //   this.menu.set(menu);
-    // } else {
-    //   this.menu.set([
-    //     { day: 'segunda', id: 'mon', idLunch: 'empty', idSnack: 'empty' },
-    //     { day: 'terça', id: 'tue', idLunch: 'empty', idSnack: 'empty' },
-    //     { day: 'quarta', id: 'wed', idLunch: 'empty', idSnack: 'empty' },
-    //     { day: 'quinta', id: 'thu', idLunch: 'empty', idSnack: 'empty' },
-    //     { day: 'sexta', id: 'fri', idLunch: 'empty', idSnack: 'empty' },
-    //   ]);
-      
-    //   this.saveMenu();
-    // }
-
     this.getServeMenu();
     this.getServeMenuDatabase();
   }
@@ -84,7 +46,6 @@ export class MenuService {
       next: (res) => {
         const menu = res as Menu[];        
         this.menu.set(menu);
-        this.saveMenu();
         this.validateMenu();
       },
       complete: () => this.load.set(false),
@@ -132,16 +93,13 @@ export class MenuService {
     }).subscribe({
       next: (res) => {
         this.menu.update(menus => menus.map(m => m.id === menu.id ? { ...menu } : m));
-        this.saveMenu();
       }
     });
   }
 
-  private putServeSnack(snack: Snack) {
-    const idSnack = (snack as any).oobjectId;
-
+  public updateSnack(snack: Snack) {
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...snack, objectId: idSnack }).then(result => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...snack, objectId: snack.objectId }).then(result => {
         observer.next(result);
         observer.complete();
       }).catch(err => observer.error(err));
@@ -152,11 +110,9 @@ export class MenuService {
     });
   }
 
-  private putServeLunch(lunch: Lunch) {
-    const idLunch = (lunch as any).oobjectId;
-
+  public updateLunch(lunch: Lunch) {
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...lunch, objectId: idLunch }).then(result => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...lunch, objectId: lunch.objectId }).then(result => {
         observer.next(result);
         observer.complete();
       }).catch(err => observer.error(err));
@@ -296,7 +252,6 @@ export class MenuService {
 
       this.addDataDatabaseServer(menuDatabase);
       this.snacks.update(snacks => [ ...snacks, snack ]);
-      this.saveMeals();
     }
   }
 
@@ -312,26 +267,11 @@ export class MenuService {
 
       this.addDataDatabaseServer(menuDatabase);
       this.lunches.update(lunches => [ ...lunches, lunch ]);
-      this.saveMeals();
     }
-  }
-
-  public updateSnack(snack: Snack) {    
-    this.putServeSnack(snack);
-    this.saveMeals();
-  }
-
-  public updateLunch(lunch: Lunch) {
-    this.putServeLunch(lunch);
-    this.saveMeals();
   }
 
   public changeMenu(newMenuDay: Menu) {    
     this.putServeMenu(newMenuDay);
-  }
-
-  private saveMenu() {
-    this.storageService.save('menu', this.menu());
   }
 
   private async presentToast(text: string, color: 'success' | 'danger' | 'warning') {
@@ -349,11 +289,6 @@ export class MenuService {
     });
   
     await toast.present();
-  }  
-  
-  private saveMeals() {    
-    this.storageService.save('lunches', this.lunches());
-    this.storageService.save('snacks', this.snacks());
   }
 
   private makeID(): string {
