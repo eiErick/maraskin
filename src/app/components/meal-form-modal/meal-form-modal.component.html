@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelModal()">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ mealSel.name.length === 0 ? 'Criar Refeição' : mealSel.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirmModal()">
+        <span class="material-symbols-outlined">check</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form formLunch="ngForm" class="formLunch">
+    <ion-item class="ion-no-padding">
+      <ion-input type="text" fill="solid" label="Nome da almoço" labelPlacement="floating" required [(ngModel)]="mealSel.name" name="name" />
+    </ion-item>
+
+    <ion-item class="ion-no-padding">
+      <ion-input type="number" fill="solid" label="Calorias" labelPlacement="floating" required [(ngModel)]="mealSel.calories" name="calories" />
+    </ion-item>
+
+    <ion-item class="ion-no-padding">
+      <ion-input type="number" fill="solid" label="Carboidratos" labelPlacement="floating" required [(ngModel)]="mealSel.carbohydrates" name="carbohydrates" />
+    </ion-item>
+
+    <ion-item class="ion-no-padding">
+      <ion-input type="number" fill="solid" label="Glicose" labelPlacement="floating" required [(ngModel)]="mealSel.glucose" name="glicose" />
+    </ion-item>
+
+    <ion-item class="ion-no-padding">
+      <ion-toggle [(ngModel)]="mealSel.lactose" name="lactose">Lactose</ion-toggle>
+    </ion-item>
+  </form>
+</ion-content>

@@ -1,40 +1,26 @@
-import { Component, computed, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform, ModalController } from '@ionic/angular/standalone';
+import { Component, computed, } from '@angular/core';
+import { IonContent, IonButton, IonList, IonItem, ModalController } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
-import { addIcons } from 'ionicons';
-import { add, checkmark, close } from 'ionicons/icons';
 import { AlertController } from '@ionic/angular';
 import { HeaderComponent } from "../../components/header/header.component";
-import { Subscription } from 'rxjs';
+import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-form-modal.component';
 
 @Component({
   selector: 'app-snack',
   templateUrl: './snack.component.html',
   styleUrls: ['./snack.component.scss'],
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
-    FormsModule,
-    IonButtons,
     IonButton,
-    IonIcon,
-    IonModal,
     IonList,
     IonItem,
-    IonInput,
-    IonToggle,
     HeaderComponent
   ],
 })
-export class SnackComponent implements OnDestroy {
+export class SnackComponent {
   public snacks = computed(() => this.menuService.snacks());
   public loadMenu = computed(() => this.menuService.load());
-  private backButtonSubscription: Subscription;
-  public selSnack: Meal;
   public deletedSnackId: string = '';
 
   public alertButtons = [
@@ -48,74 +34,31 @@ export class SnackComponent implements OnDestroy {
     },
   ];
 
-  isModalOpen = false;
-
   constructor (
-    private platform: Platform,
     private menuService: MenuService,
-    private menuCtrl: MenuController,
-    private modalCtrl: ModalController,
+    private modalController: ModalController,
     private alertController: AlertController
-  ) {
-    addIcons({ add, checkmark, close });
+  ) {}
 
-    this.selSnack = {
-      calories: 0,
-      carbohydrates: 0,
-      glucose: 0,
-      id: '',
-      objectId: '',
-      lactose: false,
-      name: ''
-    }
-
-    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {
-      const modal = await this.modalCtrl.getTop();
-      if (modal) {
-        this.closeModal();
-      }
+  public async openEditSnack(snack: Meal) {
+    const modal = await this.modalController.create({
+      component: MealFormModalComponent,
+      componentProps: {
+        meal: snack,
+      },
     });
+
+    modal.onDidDismiss().then((data) => this.menuService.updateMeal(data.data));
+    await modal.present();
   }
 
-  ngOnDestroy() {
-    this.backButtonSubscription.unsubscribe()
-  }
+  public async openCreateSnack() {
+    const modal = await this.modalController.create({
+      component: MealFormModalComponent
+    });
 
-  public setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  public openMenu() {
-    this.menuCtrl.open('side');
-  }
-
-  public openEditSnack(snack: Meal) {
-    this.selSnack = snack;
-    this.setOpen(true);
-  }
-
-  public openCreateSnack() {
-    this.clearSelectedSnack();
-    this.setOpen(true);
-  }
-
-  public confirmModal() {
-    if (this.selSnack.id.length === 0) {
-      this.menuService.addMeal(this.selSnack, 'snack');
-    } else {
-      this.menuService.updateMeal(this.selSnack);
-    }
-
-    this.closeModal();
-  }
-
-  public cancelModal() {
-    this.clearSelectedSnack();
-    this.closeModal();
-  }
-
-  public closeModal() {
-    this.isModalOpen = false;
+    modal.onDidDismiss().then((data) => this.menuService.addMeal(data.data, 'snack'));
+    await modal.present();
   }
 
   async presentDeleteConfirm(snack: Meal) {
@@ -144,10 +87,5 @@ export class SnackComponent implements OnDestroy {
 
   private deleteSnack(snack: Meal) {
     this.menuService.deleteMeal(snack);
-  }
-  
-  public clearSelectedSnack() {
-    this.setOpen(false);
-    this.selSnack = { calories: 0, carbohydrates: 0, glucose: 0, id: '', objectId: '', lactose: false, name: '' };
   }
 }

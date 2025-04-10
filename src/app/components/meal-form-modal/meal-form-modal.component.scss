@@ -1,0 +1,9 @@
+.formLunch {
+    background-color: var(--bg-color-100);
+    padding: 1rem;
+    border-radius: var(--radius-10);
+
+    ion-item {
+        --background: var(--bg-color-100);
+    }
+}
