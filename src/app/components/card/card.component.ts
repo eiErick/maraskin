@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Lunch, Menu, Snack } from 'src/app/models/menu';
+import { Meal, Menu } from 'src/app/models/menu';
 import { IonSelect, IonSelectOption, AlertController } from '@ionic/angular/standalone';
 import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,34 +18,22 @@ import { MenuService } from 'src/app/services/menu.service';
 })
 export class CardComponent {
   public menu = input.required<Menu>();
-  public snacks = input.required<Snack[]>();
-  public lunches = input.required<Lunch[]>();
+  public snacks = input.required<Meal[]>();
+  public lunches = input.required<Meal[]>();
   public changedMenu = output<Menu>();
 
   constructor(
     private menuService: MenuService,
     private alertController: AlertController
   ) { }
-  
-  public changeMeal(menu: Menu, type: 'snack' | 'lunch', id: string) {
-    const newMenu: Menu = menu;
-
-    if (type === 'snack') {
-      newMenu.idSnack = id;
-    } else {
-      newMenu.idLunch = id;
-    }
-
-    this.menuService.changeMenu(newMenu);
-  }
 
   public changeMenu(menu: Menu) {
     this.changedMenu.emit(menu);
   }
 
   public async openNutritionalInfoDialog(menu: Menu) {
-    const snack = this.menuService.getSnackId(menu.idSnack);
-    const lunch = this.menuService.getLunchId(menu.idLunch);
+    const snack = this.menuService.getMealId(menu.idSnack);
+    const lunch = this.menuService.getMealId(menu.idLunch);
 
     const alert = await this.alertController.create({
       header: 'Informações nutricionais',

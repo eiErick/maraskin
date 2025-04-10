@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Lunch, Menu, MenuDatabase, Snack } from '../models/menu';
+import { Meal, Menu, MenuDatabase } from '../models/menu';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular/standalone';
 import Backendless from 'backendless';
@@ -21,8 +21,8 @@ if (authSaved) {
 })
 export class MenuService {
   public menu = signal<Menu[]>([]);
-  public lunches = signal<Lunch[]>([]);
-  public snacks = signal<Snack[]>([]);
+  public lunches = signal<Meal[]>([]);
+  public snacks = signal<Meal[]>([]);
   public load = signal<boolean>(false);
 
   private NAME_SERVE_MENU = 'menu';
@@ -62,8 +62,8 @@ export class MenuService {
       next: (res) => {
         const database = res as MenuDatabase[];
 
-        let snacks: Snack[] = [];
-        let lunches: Lunch[] = [];
+        let snacks: Meal[] = [];
+        let lunches: Meal[] = [];
         
         database.forEach((data) => {
           data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name });
@@ -82,7 +82,7 @@ export class MenuService {
     });
   }
 
-  private putServeMenu(menu: Menu) {
+  public changeMenu(menu: Menu) {
     const idMenu = (menu as any).objectId;
 
     new Observable(observer => {
@@ -91,46 +91,45 @@ export class MenuService {
         observer.complete();
       }).catch(err => observer.error(err));
     }).subscribe({
-      next: (res) => {
+      next: () => {
         this.menu.update(menus => menus.map(m => m.id === menu.id ? { ...menu } : m));
       }
     });
   }
 
-  public updateSnack(snack: Snack) {
+  public updateMeal(meal: Meal) {
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...snack, objectId: snack.objectId }).then(result => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...meal, objectId: meal.objectId }).then(result => {
         observer.next(result);
         observer.complete();
       }).catch(err => observer.error(err));
     }).subscribe({
-      next: (res) => {
-        this.snacks.update(snacks => snacks.map(s => s.id === snack.id ? { ...snack } : s));
+      next: () => {
+        this.lunches.update(lunches => lunches.map(l => l.id === meal.id ? { ...meal } : l));
+        this.snacks.update(snacks => snacks.map(s => s.id === meal.id ? { ...meal } : s));
+        this.presentToast('Refeição atualizada com sucesso!', 'success');
+      },
+      error: () => {
+        this.presentToast('Erro ao atualizar a refeição!', 'danger');
       }
     });
   }
 
-  public updateLunch(lunch: Lunch) {
-    new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save({ ...lunch, objectId: lunch.objectId }).then(result => {
-        observer.next(result);
-        observer.complete();
-      }).catch(err => observer.error(err));
-    }).subscribe({
-      next: (res) => {
-        this.lunches.update(lunches => lunches.map(l => l.id === lunch.id ? { ...lunch } : l));
-      }
-    });
-  }
+  private addDataDatabaseServer(newMenuDatabase: MenuDatabase) {
+    const { objectId, ...dataToSave } = newMenuDatabase;
 
-  private addDataDatabaseServer(data: MenuDatabase) {
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save(data).then(result => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).save(dataToSave).then(result => {
         observer.next(result);
         observer.complete();
       }).catch(err => observer.error(err));
     }).subscribe({
       next: (res) => {
+        const data = res as MenuDatabase;
+        
+        const meal: Meal = { calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, lactose: data.lactose, name: data.name, objectId: data.objectId };
+        
+        data.type === 'lunch' ? this.lunches.update(lunches => [ ...lunches, meal ]) : this.snacks.update(snacks => [ ...snacks, meal ]);
         this.presentToast('Item adicionado com sucesso!', 'success');
       },
       error: () => {
@@ -163,64 +162,21 @@ export class MenuService {
     });
   }
 
-  public deleteSnack(snack: Snack) {
-    const idSnack = snack.objectId;
-
+  public deleteMeal(meal: Meal) {
     new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idSnack }).then(result => {
+      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: meal.objectId }).then(result => {
         observer.next(result);
         observer.complete();
       }).catch(err => observer.error(err));
     }).subscribe({
       next: () => {
-        this.snacks.update(snacks => snacks.map(s => s.id === snack.id ? { ...snack } : s));
-        this.presentToast(`Sucesso ao deletar ${snack.name}`, 'success');
+        this.snacks.update(snacks => snacks.filter(s => s.id !== meal.id));
+        this.lunches.update(lunches => lunches.filter(l => l.id !== meal.id));
+        this.presentToast(`Sucesso ao deletar ${meal.name}`, 'success');
       },
       error: () => {
-        this.presentToast(`Erro ao deletar ${snack.name} :/`, 'danger');
+        this.presentToast(`Erro ao deletar ${meal.name} :/`, 'danger');
       }
-    });
-  }
-  
-  public deleteLunch(lunch: Lunch) {
-    const idLunch = lunch.objectId;
-
-    new Observable(observer => {
-      Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).remove({ objectId: idLunch }).then(result => {
-        observer.next(result);
-        observer.complete();
-      }).catch(err => observer.error(err));
-    }).subscribe({
-      next: () => {
-        this.lunches.update(lunches => lunches.map(l => l.id === lunch.id ? { ...lunch } : l));
-        this.presentToast(`Sucesso ao deletar ${lunch.name}`, 'success');
-      },
-      error: () => {
-        this.presentToast(`Erro ao deletar ${lunch.name} :/`, 'danger');
-      }
-    });
-  }
-  
-
-  private deleteAllMenusServer() {
-    if (this.menu()) {
-      this.createServerTables();
-      return;
-    }
-
-    this.menu().forEach((menu) => {
-      const id = menu as any;
-
-      new Observable(observer => {
-        Backendless.Data.of(this.NAME_SERVE_MENU).remove({ objectId: id.objectId }).then(result => {
-          observer.next(result);
-          observer.complete();
-        }).catch(error => observer.error(error));
-      }).subscribe({
-        next: () => {          
-          this.createServerTables();
-        }
-      });
     });
   }
 
@@ -229,49 +185,25 @@ export class MenuService {
 
     if (zero) {
       this.createServerTables();
-    } 
+    }
   }
 
-  public getSnackId(id: string): Snack | undefined {
-    return this.snacks().find((snack) => snack.id === id);
+  public getMealId(id: string): Meal | undefined {
+    return this.snacks().find((s) => s.id === id) || this.lunches().find((l) => l.id === id);
   }
 
-  public getLunchId(id: string): Lunch | undefined {
-    return this.lunches().find((lunch) => lunch.id === id);
-  }
-
-  public addSnack(snack: Snack) {
-    const snackFound = this.snacks().find((s) => s.name.toLowerCase() === snack.name.toLowerCase());
+  public addMeal(meal: Meal, type: 'snack' | 'lunch') {    
+    const mealFound = this.snacks().find((s) => s.name.toLowerCase() === meal.name.toLowerCase()) || this.lunches().find((l) => l.name.toLowerCase() === meal.name.toLowerCase());
     
-    if (snackFound) {
-      // snack bar
+    if (mealFound) {
+      this.presentToast('Este refeição já existe!', 'warning');
     } else {
-      snack.id = this.makeID();
+      meal.id = this.makeID();
 
-      const menuDatabase: MenuDatabase = { calories: snack.calories, carbohydrates: snack.carbohydrates, glucose: snack.glucose, id: snack.id, objectId: snack.objectId, lactose: snack.lactose, name: snack.name, type: 'snack' };
+      const menuDatabase: MenuDatabase = { calories: meal.calories, carbohydrates: meal.carbohydrates, glucose: meal.glucose, id: meal.id, objectId: meal.objectId, lactose: meal.lactose, name: meal.name, type: type };
 
       this.addDataDatabaseServer(menuDatabase);
-      this.snacks.update(snacks => [ ...snacks, snack ]);
     }
-  }
-
-  public addLunch(lunch: Lunch) {
-    const lunchFound = this.lunches().find((l) => l.name.toLowerCase() === lunch.name.toLowerCase());
-
-    if (lunchFound) {
-      // snack bar
-    } else {
-      lunch.id = this.makeID();
-
-      const menuDatabase: MenuDatabase = { calories: lunch.calories, carbohydrates: lunch.carbohydrates, glucose: lunch.glucose, id: lunch.id, objectId: lunch.objectId, lactose: lunch.lactose, name: lunch.name, type: 'snack' };
-
-      this.addDataDatabaseServer(menuDatabase);
-      this.lunches.update(lunches => [ ...lunches, lunch ]);
-    }
-  }
-
-  public changeMenu(newMenuDay: Menu) {    
-    this.putServeMenu(newMenuDay);
   }
 
   private async presentToast(text: string, color: 'success' | 'danger' | 'warning') {
@@ -280,12 +212,7 @@ export class MenuService {
       duration: 2000,
       position: 'bottom',
       color: color,
-      buttons: [
-        {
-          text: 'Fechar',
-          role: 'cancel'
-        }
-      ]
+      buttons: [{ text: 'Fechar', role: 'cancel' }],
     });
   
     await toast.present();

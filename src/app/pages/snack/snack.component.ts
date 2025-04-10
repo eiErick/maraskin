@@ -1,7 +1,7 @@
 import { Component, computed, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform, ModalController } from '@ionic/angular/standalone';
-import { Snack } from 'src/app/models/menu';
+import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { addIcons } from 'ionicons';
 import { add, checkmark, close } from 'ionicons/icons';
@@ -34,7 +34,7 @@ export class SnackComponent implements OnDestroy {
   public snacks = computed(() => this.menuService.snacks());
   public loadMenu = computed(() => this.menuService.load());
   private backButtonSubscription: Subscription;
-  public selSnack: Snack;
+  public selSnack: Meal;
   public deletedSnackId: string = '';
 
   public alertButtons = [
@@ -89,7 +89,7 @@ export class SnackComponent implements OnDestroy {
     this.menuCtrl.open('side');
   }
 
-  public openEditSnack(snack: Snack) {
+  public openEditSnack(snack: Meal) {
     this.selSnack = snack;
     this.setOpen(true);
   }
@@ -101,9 +101,9 @@ export class SnackComponent implements OnDestroy {
 
   public confirmModal() {
     if (this.selSnack.id.length === 0) {
-      this.menuService.addLunch(this.selSnack);
+      this.menuService.addMeal(this.selSnack, 'snack');
     } else {
-      this.menuService.updateLunch(this.selSnack);
+      this.menuService.updateMeal(this.selSnack);
     }
 
     this.closeModal();
@@ -118,7 +118,7 @@ export class SnackComponent implements OnDestroy {
     this.isModalOpen = false;
   }
 
-  async presentDeleteConfirm(snack: Snack) {
+  async presentDeleteConfirm(snack: Meal) {
     const alert = await this.alertController.create({
       header: 'Confirmar Deleção',
       message: `Tem certeza de que deseja deletar "${snack.name}?"`,
@@ -142,8 +142,8 @@ export class SnackComponent implements OnDestroy {
     await alert.present();
   }
 
-  private deleteSnack(snack: Snack) {
-    this.menuService.deleteSnack(snack);
+  private deleteSnack(snack: Meal) {
+    this.menuService.deleteMeal(snack);
   }
   
   public clearSelectedSnack() {

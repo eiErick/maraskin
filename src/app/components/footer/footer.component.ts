@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { clipboard, fastFood, restaurant } from 'ionicons/icons';
+import { IonTabs, IonTabBar, IonTabButton, IonLabel } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-footer',
@@ -11,13 +9,9 @@ import { clipboard, fastFood, restaurant } from 'ionicons/icons';
     IonTabs,
     IonTabBar,
     IonTabButton,
-    IonIcon,
     IonLabel
   ]
 })
 export class FooterComponent {
-
-  constructor() {
-    addIcons({ clipboard, fastFood, restaurant })
-  }
+  constructor() {}
 }

@@ -1,7 +1,7 @@
 import { Component, computed, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonModal, MenuController, IonList, IonItem, IonInput, IonToggle, Platform } from '@ionic/angular/standalone';
-import { Lunch } from 'src/app/models/menu';
+import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { addIcons } from 'ionicons';
 import { add, checkmark, close } from 'ionicons/icons';
@@ -34,7 +34,7 @@ export class LunchComponent implements OnDestroy {
   public lunches = computed(() => this.menuService.lunches());
   public loadMenu = computed(() => this.menuService.load());
   private backButtonSubscription: Subscription;
-  public selLunch: Lunch;
+  public selLunch: Meal;
   public deletedLunchId: string = '';
 
   public alertButtons = [
@@ -87,7 +87,7 @@ export class LunchComponent implements OnDestroy {
     this.menuCtrl.open('side');
   }
 
-  public openEditLunch(lunch: Lunch) {
+  public openEditLunch(lunch: Meal) {
     this.selLunch = lunch;
     this.setOpen(true);
   }
@@ -98,12 +98,7 @@ export class LunchComponent implements OnDestroy {
   }
 
   public confirmModal() {
-    if (this.selLunch.id.length === 0) {
-      this.menuService.addLunch(this.selLunch);
-    } else {
-      this.menuService.updateLunch(this.selLunch);
-    }
-
+    this.selLunch.id.length === 0 ? this.menuService.addMeal(this.selLunch, 'lunch') : this.menuService.updateMeal(this.selLunch);
     this.closeModal();
   }
 
@@ -116,7 +111,7 @@ export class LunchComponent implements OnDestroy {
     this.isModalOpen = false;
   }
 
-  async presentDeleteConfirm(lunch: Lunch) {
+  async presentDeleteConfirm(lunch: Meal) {
     const alert = await this.alertController.create({
       header: 'Confirmar Deleção',
       message: `Tem certeza de que deseja deletar "${lunch.name}?"`,
@@ -140,8 +135,8 @@ export class LunchComponent implements OnDestroy {
     await alert.present();
   }
 
-  private deleteLunch(lunch: Lunch) {
-    this.menuService.deleteLunch(lunch);
+  private deleteLunch(lunch: Meal) {
+    this.menuService.deleteMeal(lunch);
   }
   
   public clearSelectedLunch() {

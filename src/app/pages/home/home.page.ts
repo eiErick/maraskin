@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonContent } from '@ionic/angular/standalone';
-import { Lunch, Menu, Snack } from 'src/app/models/menu';
+import { Meal, Menu } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { CardComponent } from "../../components/card/card.component";
 import { SettingsService } from 'src/app/services/settings.service';
@@ -64,7 +64,7 @@ export class HomePage {
     // });
   }
 
-  public editSnack(snack: Snack) {
+  public editSnack(snack: Meal) {
     // const mealDialogOpen: MealDialogOpen = { snack: { ...snack }, lunch: { name: '', calories: 0, gluten: false, id: '' }};
 
     // const dialogRef = this.dialog.open(DialogCreateMealComponent, {
@@ -78,7 +78,7 @@ export class HomePage {
     // });
   }
 
-  public editLunch(lunch: Lunch) {
+  public editLunch(lunch: Meal) {
     // const mealDialogOpen: MealDialogOpen = { lunch: { ...lunch }, snack: { name: '', calories: 0, gluten: false, lactose: false, id: '' }};
 
     // const dialogRef = this.dialog.open(DialogCreateMealComponent, {
@@ -92,7 +92,7 @@ export class HomePage {
     // });
   }
 
-  public deleteSnack(snack: Snack) {
+  public deleteSnack(snack: Meal) {
     // const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
     //   data: snack.name,
     // });
@@ -106,7 +106,7 @@ export class HomePage {
     // });
   }
 
-  public deleteLunch(lunch: Lunch) {
+  public deleteLunch(lunch: Meal) {
     // const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
     //   data: lunch.name,
     // });
