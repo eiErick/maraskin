@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/guard.guard';
 import { FooterComponent } from './components/footer/footer.component';
+import { OfflineGuard } from './guards/offline.guard';
 
 export const routes: Routes = [
   {
@@ -10,17 +11,17 @@ export const routes: Routes = [
       {
         path: 'menu',
         loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, OfflineGuard],
       },
       {
         path: 'snack',
         loadComponent: () => import('./pages/snack/snack.component').then((m) => m.SnackComponent),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, OfflineGuard],
       },
       {
         path: 'lunch',
         loadComponent: () => import('./pages/lunch/lunch.component').then((m) => m.LunchComponent),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, OfflineGuard],
       },
       {
         path: '',
@@ -32,5 +33,10 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
-  }
+    canActivate: [OfflineGuard],
+  },
+  {
+    path: 'offline',
+    loadComponent: () => import('./pages/offline/offline.page').then( m => m.OfflinePage),
+  },
 ];

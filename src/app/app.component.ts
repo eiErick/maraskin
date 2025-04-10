@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { NetworkService } from './services/network.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent {
   public darkMode = false;
   
   constructor(
-    private platform: Platform
+    private platform: Platform,
+    private networkService: NetworkService,
   ) {
     this.initializeApp();
   }
