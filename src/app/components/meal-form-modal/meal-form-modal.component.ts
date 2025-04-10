@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonItem, IonHeader, IonButtons, IonButton, IonToolbar, IonTitle, IonInput, ModalController, IonToggle } from '@ionic/angular/standalone';
+import { IonContent, IonItem, IonHeader, IonButtons, IonButton, IonToolbar, IonTitle, IonInput, ModalController, IonToggle, Platform } from '@ionic/angular/standalone';
+import { Subscription } from 'rxjs';
 import { Meal } from 'src/app/models/menu';
 
 @Component({
@@ -20,18 +21,28 @@ import { Meal } from 'src/app/models/menu';
     IonToggle
   ]
 })
-export class MealFormModalComponent  implements OnInit {
+export class MealFormModalComponent implements OnInit, OnDestroy {
   @Input() meal!: Meal;
+
+  private backButtonSubscription: Subscription;
   public mealSel: Meal = { calories: 0, carbohydrates: 0, glucose: 0, id: '', lactose: false, name: '', objectId: '' };
 
   constructor(
-    private modalCtrl: ModalController
-  ) {}
+    private modalCtrl: ModalController,
+    private platform: Platform,
+  ) {
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10000, async () => {
+      const modal = await this.modalCtrl.getTop();
+      if (modal) this.cancelModal();
+    });
+  }
   
   ngOnInit() {
-    if (this.meal) {
-      this.mealSel = this.meal;
-    }
+    if (this.meal) this.mealSel = this.meal;
+  }
+
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe();
   }
 
   public confirmModal() {
@@ -40,10 +51,5 @@ export class MealFormModalComponent  implements OnInit {
 
   public cancelModal() {
     this.modalCtrl.dismiss();
-  }
-
-  public changeLactose(event: any) {
-    console.log(event);
-    
   }
 }
