@@ -1,19 +1,28 @@
+ion-header {
+    ion-toolbar {
+        --background: var(--bg-color-0);
+        color: var(--text-color);
+    }
+}
+
 ion-content {
+    --background: var(--bg-color-0);
+    
     .toggle-theme {
         padding: 1rem;
         background-color: var(--bg-color-100);
         border-radius: var(--radius-30);
         display: flex;
-        // align-items: center;
-        // justify-content: center;
         
         ion-item {
+            color: var(--text-color);
             width: 100%;
             --background: var(--bg-color-100);
         }
     }
 
     .contributors {
+        color: var(--text-color);
         padding: 1rem;
         margin-top: 1rem;
         background-color: var(--bg-color-100);
@@ -27,23 +36,4 @@ ion-content {
             margin: .5rem;
         }
     }
-
-    .logout {
-        // position: absolute;
-        // top: 100%;
-        // left: 50%;
-        // transform: translate(-50%, -110%);
-    }
 }
-
-// .logout {
-//     width: 50%;
-//     position: absolute;
-//     top: 100%;
-//     left: 50%;
-//     transform: translate(-50%, -110%);
-
-//     ion-button {
-//         width: 100%;
-//     }
-// }

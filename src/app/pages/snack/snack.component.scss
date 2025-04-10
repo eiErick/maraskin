@@ -1,8 +1,11 @@
 ion-content {
-    ion-list {
-        background-color: var(--bg-color-100);
-
+    --background: var(--bg-color-0);
+    
+    ion-list {        
         ion-item {
+            color: var(--text-color);
+            --background: var(--bg-color-0);
+
             .snack {
                 display: flex;
                 width: 100%;

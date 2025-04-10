@@ -1,9 +1,21 @@
-.formLunch {
-    background-color: var(--bg-color-100);
-    padding: 1rem;
-    border-radius: var(--radius-10);
+ion-header {
+    ion-toolbar {
+        --background: var(--bg-color-0);
+        color: var(--text-color);
+    }
+}
 
-    ion-item {
-        --background: var(--bg-color-100);
+ion-content {
+    --background: var(--bg-color-0);
+
+    .formLunch {
+        background-color: var(--bg-color-100);
+        padding: 1rem;
+        border-radius: var(--radius-10);
+        
+        ion-item {
+            color: var(--text-color);
+            --background: var(--bg-color-100);
+        }
     }
 }

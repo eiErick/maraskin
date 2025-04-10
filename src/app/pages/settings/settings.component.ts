@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonToggle, AlertController } from '@ionic/angular/standalone';
 import { caretBack, chevronBackOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SettingsComponent implements OnDestroy {
   private backButtonSubscription: Subscription;
-  public isDarkMode: boolean = true;
+  public isDarkMode: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -43,37 +43,34 @@ export class SettingsComponent implements OnDestroy {
       }
     });
 
-    // this.initTheme();
-  }
-
-  initTheme() {
-    const storedTheme = localStorage.getItem('dark-mode');
-    if (storedTheme === null) {
-      document.body.classList.add('dark');
-      localStorage.setItem('dark-mode', 'true');
-      this.isDarkMode = true;
-    } else {
-      this.isDarkMode = storedTheme === 'true';
-      if (this.isDarkMode) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-    }
-  }
-
-  toggleTheme(event: any) {
-    this.isDarkMode = event.detail.checked;
-    if (this.isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('dark-mode', this.isDarkMode.toString());
+    this.loadTheme();
   }
 
   ngOnDestroy() {
     this.backButtonSubscription.unsubscribe();
+  }
+
+  public loadTheme() {
+    const storedTheme = localStorage.getItem('dark-mode');
+
+    if (storedTheme) {
+      const theme = JSON.parse(storedTheme);
+      this.isDarkMode = theme;
+    } else {
+      this.isDarkMode = false
+    }
+  }
+
+  public toggleTheme() {
+    if (this.isDarkMode) {
+      document.documentElement.classList.remove('app-light');
+      document.documentElement.classList.add('app-dark');
+    } else {
+      document.documentElement.classList.remove('app-dark');
+      document.documentElement.classList.add('app-light');
+    }
+
+    localStorage.setItem('dark-mode', this.isDarkMode.toString());
   }
 
   public closeModal() {

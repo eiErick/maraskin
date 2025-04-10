@@ -16,10 +16,24 @@ export class AppComponent {
     private networkService: NetworkService,
   ) {
     this.initializeApp();
+
   }
 
   public initializeApp() {
     this.setStatusBarStyle();
+    this.initTheme();
+  }
+
+  private initTheme() {
+    const storedTheme = localStorage.getItem('dark-mode');
+
+    if (storedTheme) {
+      const theme = JSON.parse(storedTheme);
+      theme ? document.documentElement.classList.add('app-dark') : document.documentElement.classList.add('app-light')
+    } else {
+      document.documentElement.classList.add('app-light');
+      localStorage.setItem('dark-mode', 'false');
+    }
   }
 
   public setStatusBarStyle = async () => {

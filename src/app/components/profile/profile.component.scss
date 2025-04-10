@@ -1,16 +1,28 @@
-.container-avatars {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    width: 100%;
-    flex-wrap: wrap;
-    margin-top: 1rem;
+ion-header {
+    ion-toolbar {
+        --background: var(--bg-color-0);
+        color: var(--text-color);
+    }
+}
 
-    .avatar {
-        width: 10rem;
-        background-color: var(--bg-color-100);
-        padding: 1rem;
-        border-radius: var(--radius-30);
-        cursor: pointer;
+ion-content {
+    --background: var(--bg-color-0);
+    color: var(--text-color);
+
+    .container-avatars {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        width: 100%;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        
+        .avatar {
+            width: 10rem;
+            background-color: var(--bg-color-100);
+            padding: 1rem;
+            border-radius: var(--radius-30);
+            cursor: pointer;
+        }
     }
 }
