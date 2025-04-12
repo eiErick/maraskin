@@ -37,13 +37,13 @@ export class AppComponent {
   }
 
   public setStatusBarStyle = async () => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      await StatusBar.setStyle({ style: Style.Dark });
-      await StatusBar.setBackgroundColor({ color: '#000000' });
-    } else {
-      await StatusBar.setStyle({ style: Style.Light });
-      await StatusBar.setBackgroundColor({ color: '#ffffff' });
-    }
+    await StatusBar.setBackgroundColor({ color: '#ff6600' });
+    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // if (prefersDark) {
+    //   await StatusBar.setStyle({ style: Style.Dark });
+    // } else {
+    //   await StatusBar.setStyle({ style: Style.Light });
+    //   await StatusBar.setBackgroundColor({ color: '#ffffff' });
+    // }
   };
 }
