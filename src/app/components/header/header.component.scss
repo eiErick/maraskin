@@ -2,6 +2,11 @@ ion-header {
     ion-toolbar {
         --background: var(--primary-color);
         color: #ffffff;
+
+        ion-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
         
         ion-buttons {
             ion-button {
