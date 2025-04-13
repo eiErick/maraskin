@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { NetworkService } from './services/network.service';
+
+StatusBar.setBackgroundColor({ color: '#ff6600' });
+StatusBar.setStyle({ style: Style.Dark });
 
 @Component({
   selector: 'app-root',
@@ -11,16 +13,11 @@ import { NetworkService } from './services/network.service';
 export class AppComponent {
   public darkMode = false;
   
-  constructor(
-    private platform: Platform,
-    private networkService: NetworkService,
-  ) {
+  constructor() {
     this.initializeApp();
-
   }
 
   public initializeApp() {
-    this.setStatusBarStyle();
     this.initTheme();
   }
 
@@ -35,15 +32,4 @@ export class AppComponent {
       localStorage.setItem('dark-mode', 'false');
     }
   }
-
-  public setStatusBarStyle = async () => {
-    await StatusBar.setBackgroundColor({ color: '#ff6600' });
-    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // if (prefersDark) {
-    //   await StatusBar.setStyle({ style: Style.Dark });
-    // } else {
-    //   await StatusBar.setStyle({ style: Style.Light });
-    //   await StatusBar.setBackgroundColor({ color: '#ffffff' });
-    // }
-  };
 }
