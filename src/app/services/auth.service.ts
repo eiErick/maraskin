@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from '../models/auth';
+import { AlertController } from '@ionic/angular/standalone';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -12,6 +13,7 @@ export class AuthService {
   constructor (
     private storageService: StorageService,
     private route: Router,
+    private alertController: AlertController,
   ) {}
 
   public isAuthenticated(): boolean {
@@ -26,10 +28,30 @@ export class AuthService {
     this.route.navigate(['menu']);
   }
 
-  public logout() {
-    this.storageService.removeAll();
-    this.authenticated.set(false);
-    this.route.navigate(['login']);    
+  public async logout() {
+    console.log(1);
+    
+    const alert = await this.alertController.create({
+      header: 'Confirmar Deleção',
+      message: "Tem certeza que deseja sair?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Sair',
+          handler: () => {
+            this.storageService.removeAll();
+            this.authenticated.set(false);
+            this.route.navigate(['login']);
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
   }
 
   private hasToken(): boolean {

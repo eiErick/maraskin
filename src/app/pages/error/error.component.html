@@ -1,0 +1,15 @@
+<app-header title="Erro de conexão :/" />
+
+<ion-content [fullscreen]="true">
+  <div class="error-container">
+
+    <img src="https://icons.iconarchive.com/icons/csscreme/halloween/128/ghost-icon.png" width="128" height="128">    
+    <p class="title">Erro de conexão :/</p>
+    <p>Ops! Parece que o login deu errado ou o servidor está fora do ar. Tente novamente em instantes :)</p>
+
+    <ion-button color="danger" (click)="logout()">
+      <span>Sair</span>
+      <span class="material-symbols-outlined">logout</span>
+    </ion-button>
+  </div>
+</ion-content>

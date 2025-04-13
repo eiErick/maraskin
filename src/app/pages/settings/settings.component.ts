@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, AlertController, IonCheckbox } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonCheckbox } from '@ionic/angular/standalone';
 import { caretBack, chevronBackOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { AuthService } from 'src/app/services/auth.service';
@@ -31,7 +31,6 @@ export class SettingsComponent implements OnDestroy {
     private authService: AuthService,
     public settingsService: SettingsService,
     private modalCtrl: ModalController,
-    private alertController: AlertController,
     private platform: Platform,
   ) {
     addIcons({ chevronBackOutline, caretBack });
@@ -80,27 +79,5 @@ export class SettingsComponent implements OnDestroy {
   public logout() {
     this.authService.logout();
     this.closeModal();
-  }
-
-  public async logoutConfirm() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar Deleção',
-      message: "Tem certeza que deseja sair?",
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {},
-        },
-        {
-          text: 'Sair',
-          handler: () => {
-            this.logout();
-          },
-        },
-      ],
-    });
-  
-    await alert.present();
   }
 }
