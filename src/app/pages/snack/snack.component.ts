@@ -86,7 +86,7 @@ export class SnackComponent {
 
   async presentDeleteConfirm(snack: Meal) {
     const alert = await this.alertController.create({
-      header: 'Confirmar Deleção',
+      header: 'Confirmar Deletação',
       message: `Tem certeza de que deseja deletar "${snack.name}?"`,
       buttons: [
         {
