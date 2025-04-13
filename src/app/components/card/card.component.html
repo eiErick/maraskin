@@ -2,20 +2,20 @@
 
 <div class="snack">
   <span class="description">MERENDA</span>
-    <ion-select label="Merenda" label-placement="floating" fill="outline" [(ngModel)]="menu().idSnack" name="snack" (ionChange)="changeMenu(menu())">
-      @for (snack of snacks(); track $index) {
-        <ion-select-option value="{{ snack.id }}">{{ snack.name }}</ion-select-option>
-      }
-    </ion-select>
+  <ion-select label="Merenda" label-placement="floating" fill="outline" [(ngModel)]="menu().idSnack" name="snack" (ionChange)="changeMenu(menu())">
+    @for (snack of snacks(); track $index) {
+      <ion-select-option value="{{ snack.id }}">{{ snack.name }}</ion-select-option>
+    }
+  </ion-select>
 </div>
 
 <div class="lunch">
   <span class="description">ALMOÇO</span>
-    <ion-select label="Almoço" label-placement="floating" fill="outline" [(ngModel)]="menu().idLunch" name="snack" (ionChange)="changeMenu(menu())">
-      @for (lunch of lunches(); track $index) {
-        <ion-select-option value="{{ lunch.id }}">{{ lunch.name }}</ion-select-option>
-      }
-    </ion-select>
+  <ion-select label="Almoço" label-placement="floating" fill="outline" [(ngModel)]="menu().idLunch" name="snack" (ionChange)="changeMenu(menu())">
+    @for (lunch of lunches(); track $index) {
+      <ion-select-option value="{{ lunch.id }}">{{ lunch.name }}</ion-select-option>
+    }
+  </ion-select>
 </div>
 
 <div class="btns">

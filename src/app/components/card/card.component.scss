@@ -27,13 +27,21 @@
 .snack, .lunch {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     font-size: 18px;
+    width: 100%;
 
     .description {
         font-weight: 600;
         margin-bottom: 10px;
         font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    ion-select {
+        width: 80%;
     }
 }
 
