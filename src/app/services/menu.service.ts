@@ -23,7 +23,8 @@ export class MenuService {
   public menu = signal<Menu[]>([]);
   public lunches = signal<Meal[]>([]);
   public snacks = signal<Meal[]>([]);
-  public load = signal<boolean>(false);
+  public loadMenu = signal<boolean>(false);
+  public loadDatabase = signal<boolean>(false);
 
   private NAME_SERVE_MENU = 'menu';
   private NAME_SERVE_MENU_DATABASE = 'menu-database';
@@ -35,8 +36,13 @@ export class MenuService {
     this.getServeMenuDatabase();
   }
 
-  private getServeMenu() {
-    this.load.set(true);
+  public reload() {
+    this.getServeMenu();
+    this.getServeMenuDatabase();
+  }
+
+  private getServeMenu() {    
+    this.loadMenu.set(true);
     new Observable(observer => {
       Backendless.Data.of(this.NAME_SERVE_MENU).find().then(result => {
         observer.next(result);
@@ -48,11 +54,13 @@ export class MenuService {
         this.menu.set(menu);
         this.validateMenu();
       },
-      complete: () => this.load.set(false),
+      error: () => this.loadMenu.set(false),
+      complete: () => this.loadMenu.set(false),
     });
   }
 
   private getServeMenuDatabase() {
+    this.loadDatabase.set(true);
     new Observable(observer => {
       Backendless.Data.of(this.NAME_SERVE_MENU_DATABASE).find().then(result => {
         observer.next(result);
@@ -74,11 +82,9 @@ export class MenuService {
       },
       error: () => {
         this.presentToast('Erro ao carregar cardápio :/', 'danger');
-        this.load.set(false);
+        this.loadDatabase.set(false);
       },
-      complete: () => {        
-        this.load.set(false);
-      }
+      complete: () => this.loadDatabase.set(false),
     });
   }
 

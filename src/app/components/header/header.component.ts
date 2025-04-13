@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, ModalController, IonProgressBar } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, ModalController } from '@ionic/angular/standalone';
 import { SettingsComponent } from 'src/app/pages/settings/settings.component';
 
 @Component({
@@ -13,7 +13,6 @@ import { SettingsComponent } from 'src/app/pages/settings/settings.component';
     IonButton,
     IonAvatar,
     IonTitle,
-    IonProgressBar
   ]
 })
 export class HeaderComponent {

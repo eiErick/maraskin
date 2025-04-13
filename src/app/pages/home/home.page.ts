@@ -1,6 +1,6 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, LoadingController } from '@ionic/angular/standalone';
 import { Meal, Menu } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { CardComponent } from "../../components/card/card.component";
@@ -15,7 +15,7 @@ import { HeaderComponent } from "../../components/header/header.component";
     IonContent,
     FormsModule,
     CardComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
 })
 export class HomePage {
@@ -23,7 +23,7 @@ export class HomePage {
   public menus = computed(() => this.menuService.menu());
   public snacks = computed(() => this.menuService.snacks());
   public lunches = computed(() => this.menuService.lunches());
-  public loadMenu = computed(() => this.menuService.load());
+  public loadMenu = computed(() => this.menuService.loadMenu());
 
   public select: 'menu' | 'database' = 'menu';
   public databaseType: 'snack' | 'lunch' = 'snack';
@@ -31,11 +31,37 @@ export class HomePage {
   constructor (
     private menuService: MenuService,
     private settingService: SettingsService,
-  ) {}
+    private loadingController: LoadingController
+  ) {
+    effect(() => {
+      if (this.loadMenu()) {
+        this.loadingScreen();
+      }
+    });
+  }
 
   public changeMenu(menu: Menu) {
     this.menuService.changeMenu(menu);
   }
+
+  private async loadingScreen() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando...',
+      spinner: 'crescent'
+    });
+  
+    await loading.present();
+  
+    const interval = setInterval(async () => {
+      console.log(this.loadMenu());
+      
+      if (!this.loadMenu()) {
+        clearInterval(interval);
+        await loading.dismiss();
+      }
+    }, 100);
+  }
+  
 
   public openDialogCreateMeal() {
     // const mealDialogOpen: MealDialogOpen = { 

@@ -1,5 +1,5 @@
-import { Component, computed, } from '@angular/core';
-import { IonContent, IonButton, IonList, IonItem, ModalController } from '@ionic/angular/standalone';
+import { Component, computed, effect, } from '@angular/core';
+import { IonContent, IonButton, IonList, IonItem, ModalController, LoadingController } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { AlertController } from '@ionic/angular';
@@ -20,7 +20,7 @@ import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-
 })
 export class SnackComponent {
   public snacks = computed(() => this.menuService.snacks());
-  public loadMenu = computed(() => this.menuService.load());
+  public loadMenu = computed(() => this.menuService.loadDatabase());
   public deletedSnackId: string = '';
 
   public alertButtons = [
@@ -37,8 +37,31 @@ export class SnackComponent {
   constructor (
     private menuService: MenuService,
     private modalController: ModalController,
-    private alertController: AlertController
-  ) {}
+    private alertController: AlertController,
+    private loadingController: LoadingController
+  ) {
+    effect(() => {
+      if (this.loadMenu()) {
+        this.loadingScreen();
+      }
+    });
+  }
+
+  private async loadingScreen() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando...',
+      spinner: 'crescent'
+    });
+  
+    await loading.present();
+  
+    const interval = setInterval(async () => {
+      if (!this.loadMenu()) {
+        clearInterval(interval);
+        await loading.dismiss();
+      }
+    }, 100);
+  }
 
   public async openEditSnack(snack: Meal) {
     const modal = await this.modalController.create({

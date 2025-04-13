@@ -1,9 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>{{ title() }}</ion-title>
-    @if (load()) {
-      <ion-progress-bar type="indeterminate" />
-    }
     <ion-buttons slot="primary">
       <ion-button>
         <ion-avatar (click)="openSettings()">
