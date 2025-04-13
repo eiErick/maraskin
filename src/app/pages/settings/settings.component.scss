@@ -3,6 +3,10 @@ ion-header {
         --background: var(--primary-color);
         color: #ffffff;
 
+        ion-title {
+            font-weight: 700;
+        }
+
         ion-buttons {
             ion-button {
                 .material-symbols-outlined, span {
@@ -26,6 +30,10 @@ ion-content {
             color: var(--text-color);
             width: 100%;
             --background: var(--bg-color-100);
+
+            ion-checkbox {
+                font-weight: 600;
+            }
         }
     }
 
@@ -42,6 +50,7 @@ ion-content {
 
         span {
             margin: .5rem;
+            font-weight: 600;
         }
     }
 }
