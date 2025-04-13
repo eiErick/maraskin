@@ -1,9 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { Meal, Menu } from 'src/app/models/menu';
-import { IonSelect, IonSelectOption, AlertController } from '@ionic/angular/standalone';
+import { IonSelect, IonSelectOption, ModalController } from '@ionic/angular/standalone';
 import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MenuService } from 'src/app/services/menu.service';
+import { NutritionalInformationModalComponent } from '../nutritional-information-modal/nutritional-information-modal.component';
 
 @Component({
   selector: 'app-card',
@@ -24,7 +25,7 @@ export class CardComponent {
 
   constructor(
     private menuService: MenuService,
-    private alertController: AlertController
+    private modalController: ModalController
   ) { }
 
   public changeMenu(menu: Menu) {
@@ -35,18 +36,12 @@ export class CardComponent {
     const snack = this.menuService.getMealId(menu.idSnack);
     const lunch = this.menuService.getMealId(menu.idLunch);
 
-    const alert = await this.alertController.create({
-      header: 'Informações nutricionais',
-      message: `
-        Nome: ${ snack?.name }
-        Calorias: ${ snack?.calories }
-        Carboidratos: ${ snack?.carbohydrates }
-        Contém Lactose: ${ snack?.lactose }
-        Glicose: ${ snack?.glucose }
-      `,
-      buttons: ['OK']
-    });
-  
-    await alert.present();
+    this.modalController.create({
+      component: NutritionalInformationModalComponent,
+      componentProps: {
+        snack: snack,
+        lunch: lunch,
+      }
+    }).then((m) => m.present());
   }
 }

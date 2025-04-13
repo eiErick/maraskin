@@ -1,0 +1,44 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelModal()">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Informações Nutricionais</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="snack">
+    <h2>Merenda</h2>
+    <span>CALORIAS: {{ snack.calories }}</span>
+    <span>GLICOSE: {{ snack.glucose }}</span>
+    <span>CARBOIDRATOS: {{ snack.carbohydrates }}</span>
+
+    @if (snack.lactose) {
+      <div class="lactose">LACTOSE</div>
+    }
+
+    <div class="assessment">
+      <span class="material-symbols-outlined">star</span>
+      <span>{{ snack.assessment }}/5</span>
+    </div>
+  </div>
+
+  <div class="lunch">
+    <h2>Merenda</h2>
+    <span>CALORIAS: {{ lunch.calories }}</span>
+    <span>GLICOSE: {{ lunch.glucose }}</span>
+    <span>CARBOIDRATOS: {{ lunch.carbohydrates }}</span>
+
+    @if (lunch.lactose) {
+      <div class="lactose">LACTOSE</div>
+    }
+
+    <div class="assessment">
+      <span class="material-symbols-outlined">star</span>
+      <span>{{ lunch.assessment }}/5</span>
+    </div>
+  </div>
+</ion-content>
