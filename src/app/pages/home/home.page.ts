@@ -52,9 +52,7 @@ export class HomePage {
   
     await loading.present();
   
-    const interval = setInterval(async () => {
-      console.log(this.loadMenu());
-      
+    const interval = setInterval(async () => {      
       if (!this.loadMenu()) {
         clearInterval(interval);
         await loading.dismiss();
