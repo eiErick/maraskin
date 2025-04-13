@@ -25,7 +25,7 @@ export class MealFormModalComponent implements OnInit, OnDestroy {
   @Input() meal!: Meal;
 
   private backButtonSubscription: Subscription;
-  public mealSel: Meal = { calories: 0, carbohydrates: 0, glucose: 0, id: '', lactose: false, name: '', objectId: '' };
+  public mealSel: Meal = { calories: 0, carbohydrates: 0, glucose: 0, id: '', lactose: false, name: '', objectId: '', assessment: 0 };
 
   constructor(
     private modalCtrl: ModalController,

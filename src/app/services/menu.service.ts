@@ -82,7 +82,7 @@ export class MenuService {
         let lunches: Meal[] = [];
         
         database.forEach((data) => {
-          data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name });
+          data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name, assessment: 0 }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name, assessment: 0 });
         });
 
         this.snacks.set(snacks);
@@ -142,7 +142,7 @@ export class MenuService {
       next: (res) => {
         const data = res as MenuDatabase;
         
-        const meal: Meal = { calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, lactose: data.lactose, name: data.name, objectId: data.objectId };
+        const meal: Meal = { calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, lactose: data.lactose, name: data.name, objectId: data.objectId, assessment: 0 };
         
         data.type === 'lunch' ? this.lunches.update(lunches => [ ...lunches, meal ]) : this.snacks.update(snacks => [ ...snacks, meal ]);
         this.presentToast('Item adicionado com sucesso!', 'success');

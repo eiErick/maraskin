@@ -24,6 +24,7 @@ export interface Meal {
     glucose: number;
     objectId: string;
     id: string;
+    assessment: number;
 }
 
 // export interface Snack {
