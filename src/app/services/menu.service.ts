@@ -5,17 +5,6 @@ import { ToastController } from '@ionic/angular/standalone';
 import Backendless from 'backendless';
 import { Auth } from '../models/auth';
 
-const authSaved = localStorage.getItem('auth');
-
-if (authSaved) {
-  const authJSON = JSON.parse(authSaved) as Auth;
-
-  const APP_ID = authJSON.appid;
-  const API_KEY = authJSON.appkey;
-
-  Backendless.initApp(APP_ID, API_KEY);
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -33,13 +22,23 @@ export class MenuService {
   constructor(
     private toastController: ToastController
   ) {
-    this.getServeMenu();
-    this.getServeMenuDatabase();
+    this.loadBackendless();
   }
 
-  public reload() {
-    this.getServeMenu();
-    this.getServeMenuDatabase();
+  public loadBackendless() {
+    const authSaved = localStorage.getItem('auth');
+
+    if (authSaved) {
+      const authJSON = JSON.parse(authSaved) as Auth;
+      
+      const APP_ID = authJSON.appid;
+      const API_KEY = authJSON.appkey;
+
+      Backendless.initApp(APP_ID, API_KEY);
+
+      this.getServeMenu();
+      this.getServeMenuDatabase();
+    }
   }
 
   public validateConnection() {
@@ -55,7 +54,12 @@ export class MenuService {
       }).catch(err => observer.error(err));
     }).subscribe({
       next: (res) => {
-        const menu = res as Menu[];        
+        const menu = res as Menu[];
+
+        if (this.errorReq) {
+          this.errorReq.set(false);
+        }
+
         this.menu.set(menu);
         this.validateMenu();
       },
@@ -84,6 +88,10 @@ export class MenuService {
         database.forEach((data) => {
           data.type === 'snack' ? snacks.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name, assessment: 0 }) : lunches.push({ calories: data.calories, carbohydrates: data.carbohydrates, glucose: data.glucose, id: data.id, objectId: data.objectId, lactose: data.lactose, name: data.name, assessment: 0 });
         });
+
+        if (this.errorReq) {
+          this.errorReq.set(false);
+        }
 
         this.snacks.set(snacks);
         this.lunches.set(lunches);

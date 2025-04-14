@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonButton, IonInput, IonAvatar, IonItem, ModalController } from '@ionic/angular/standalone'
 import { ProfileComponent } from 'src/app/components/profile/profile.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent {
   public appkey: string = '';
 
   constructor(
+    private menuService: MenuService,
     private auth: AuthService,
     private modalCtrl: ModalController
   ) { }
@@ -37,5 +39,6 @@ export class LoginComponent {
 
   public login() {
     this.auth.setLogin({ appid: this.appid, appkey: this.appkey, name: this.name }, this.password);
+    this.menuService.loadBackendless();
   }
 }
