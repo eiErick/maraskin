@@ -28,9 +28,7 @@ export class AuthService {
     this.route.navigate(['menu']);
   }
 
-  public async logout() {
-    console.log(1);
-    
+  public async logout() {    
     const alert = await this.alertController.create({
       header: 'Confirmar Deleção',
       message: "Tem certeza que deseja sair?",
