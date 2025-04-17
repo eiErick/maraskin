@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonItem, IonCheckbox } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, ModalController, IonButtons, Platform, IonToggle } from '@ionic/angular/standalone';
 import { caretBack, chevronBackOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,9 +18,8 @@ import { FormsModule } from '@angular/forms';
     IonContent,
     IonButton,
     IonButtons,
-    IonItem,
     FormsModule,
-    IonCheckbox,
+    IonToggle
   ]
 })
 export class SettingsComponent implements OnDestroy {
