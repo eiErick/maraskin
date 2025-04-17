@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonButtons, IonButton, IonContent, IonTitle, ModalController, IonImg } from '@ionic/angular/standalone'
+import { IonHeader, IonToolbar, IonButtons, IonButton, IonContent, IonTitle, ModalController } from '@ionic/angular/standalone'
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +12,6 @@ import { IonHeader, IonToolbar, IonButtons, IonButton, IonContent, IonTitle, Mod
     IonButton,
     IonContent,
     IonTitle,
-    IonImg
   ],
 })
 export class ProfileComponent {

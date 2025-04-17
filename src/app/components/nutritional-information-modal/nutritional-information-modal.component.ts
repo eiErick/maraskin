@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, ModalController } from '@ionic/angular/standalone';
+import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/menu';
 
 @Component({
@@ -8,11 +8,6 @@ import { Meal } from 'src/app/models/menu';
   styleUrls: ['./nutritional-information-modal.component.scss'],
   imports: [
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonButton,
-    IonTitle,
   ]
 })
 export class NutritionalInformationModalComponent  implements OnInit {
