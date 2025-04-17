@@ -71,7 +71,11 @@ export class SnackComponent {
       },
     });
 
-    modal.onDidDismiss().then((data) => this.menuService.updateMeal(data.data));
+    modal.onDidDismiss().then((data) => {
+      if (data.data) {
+        this.menuService.updateMeal(data.data);
+      }
+    });
     await modal.present();
   }
 

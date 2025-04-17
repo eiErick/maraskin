@@ -80,7 +80,11 @@ export class LunchComponent {
       component: MealFormModalComponent
     });
 
-    modal.onDidDismiss().then((data) => this.menuService.addMeal(data.data, 'lunch'));
+    modal.onDidDismiss().then((data) => {      
+      if (data.data) {
+        this.menuService.addMeal(data.data, 'lunch')
+      }
+    });
     await modal.present();
   }
 
