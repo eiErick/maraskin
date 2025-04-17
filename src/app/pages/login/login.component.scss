@@ -16,8 +16,9 @@ ion-content {
 
     form {
         color: var(--text-color);
-        background-color: var(--bg-color-100);
-        border-radius: var(--radius-30);
+        background-color: var(--bg-color-50);
+        border: .1rem solid var(--gray);
+        border-radius: var(--radius-10);
         padding: 1rem;
         margin: auto;
         margin-top: 2rem;
@@ -32,7 +33,7 @@ ion-content {
         }
 
         ion-item {
-            --background: var(--bg-color-100);
+            --background: var(--bg-color-50);
             color: var(--text-color);
 
             .item-native {
