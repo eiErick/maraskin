@@ -1,17 +1,8 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="cancelModal()">
-        <span class="material-symbols-outlined">arrow_back_ios</span>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Informações Nutricionais</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content scroll-y="false">
   <div class="snack">
-    <h2>Merenda</h2>
+    <h2>NUTRIÇÃO</h2>
+
+    <h3>Merenda</h3>
     <span>CALORIAS: {{ snack.calories }}</span>
     <span>GLICOSE: {{ snack.glucose }}</span>
     <span>CARBOIDRATOS: {{ snack.carbohydrates }}</span>
@@ -27,7 +18,7 @@
   </div>
 
   <div class="lunch">
-    <h2>Merenda</h2>
+    <h3>Almoço</h3>
     <span>CALORIAS: {{ lunch.calories }}</span>
     <span>GLICOSE: {{ lunch.glucose }}</span>
     <span>CARBOIDRATOS: {{ lunch.carbohydrates }}</span>

@@ -41,7 +41,8 @@ export class CardComponent {
       componentProps: {
         snack: snack,
         lunch: lunch,
-      }
+      },
+      cssClass: 'nutritional-modal'
     }).then((m) => m.present());
   }
 }

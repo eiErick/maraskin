@@ -14,26 +14,33 @@ ion-header {
 }
 
 ion-content {
-    --background: var(--bg-color-0);
+    --background: var(--bg-color-100);
 
     .snack, .lunch {
         color: var(--text-color);
         display: flex;
         flex-direction: column;
-        background-color: var(--bg-color-100);
         margin: 1rem;
         border-radius: var(--radius-30);
         align-items: center;
-        gap: 1rem;
-        padding: 1rem;
+        gap: .35rem;
+        padding: .2rem;
 
         h2 {
-            font-weight: 700;
+            font-weight: 600;
+            font-size: 1.5rem;
             margin: 0;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            margin: 0;
+            font-weight: 600;
+            margin-bottom: .4rem;
         }
 
         span {
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .lactose {
@@ -42,6 +49,7 @@ ion-content {
             border-radius: var(--radius-10);
             color: #ffffff;
             font-weight: 700;
+            margin: .35rem;
         }
 
         .assessment {
@@ -49,13 +57,8 @@ ion-content {
             align-items: center;
             justify-content: center;
             gap: .2rem;
-
-            .material-symbols-outlined {
-                // color: var(--pg-color);
-            }
             
             span {
-                // color: var(--pg-color-900);
                 font-weight: 600;
             }
         }
