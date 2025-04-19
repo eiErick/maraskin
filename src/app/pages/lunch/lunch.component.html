@@ -1,9 +1,10 @@
 <app-header title="Almoço" [load]="loadMenu()"/>
 
 <ion-content>
+  <ion-searchbar [(ngModel)]="searchTerm" [debounce]="300" (ionInput)="search()" placeholder="Pesquisar" />
+
   <ion-list [inset]="true">
-    @for (lunch of lunches(); track $index) {
-      <ion-item class="ion-no-padding">
+    @for (lunch of filteredLunches; track $index) {
       <ion-item class="ion-no-padding no-padding-end">
         <div class="lunch">
           <span class="name">{{ lunch.name }}</span>
@@ -13,6 +14,10 @@
           </div>
         </div>
       </ion-item>
+    } @empty {
+      @if (searchTerm !== '') {
+        <span class="empty">Nenhum almoço encontrado :/</span>
+      }
     }
   </ion-list>
 

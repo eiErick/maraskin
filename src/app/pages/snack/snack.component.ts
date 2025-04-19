@@ -1,10 +1,11 @@
 import { Component, computed, effect, } from '@angular/core';
-import { IonContent, IonButton, IonList, IonItem, ModalController, LoadingController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonList, IonItem, ModalController, LoadingController, IonSearchbar } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { AlertController } from '@ionic/angular';
 import { HeaderComponent } from "../../components/header/header.component";
 import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-form-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-snack',
@@ -15,13 +16,17 @@ import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-
     IonButton,
     IonList,
     IonItem,
-    HeaderComponent
+    HeaderComponent,
+    IonSearchbar,
+    FormsModule
   ],
 })
 export class SnackComponent {
   public snacks = computed(() => this.menuService.snacks());
+  public filtredSnacks: Meal[] = [];
   public loadMenu = computed(() => this.menuService.loadDatabase());
   public deletedSnackId: string = '';
+  public searchTerm: string = '';
 
   public alertButtons = [
     {
@@ -41,10 +46,20 @@ export class SnackComponent {
     private loadingController: LoadingController
   ) {
     effect(() => {
+      this.search();
+
       if (this.loadMenu()) {
         this.loadingScreen();
       }
     });
+  }
+
+  public search() {    
+    if (this.searchTerm !== '') {
+      this.filtredSnacks = [ ...this.snacks().filter((snack) => snack.name.toUpperCase().includes(this.searchTerm.toUpperCase())) ];
+    } else {
+      this.filtredSnacks = [ ...this.snacks() ];
+    }
   }
 
   private async loadingScreen() {

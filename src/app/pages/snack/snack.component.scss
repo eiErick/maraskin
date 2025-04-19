@@ -1,7 +1,9 @@
 ion-content {
     --background: var(--bg-color-0);
     
-    ion-list {        
+    ion-list {   
+        margin: 0 1rem 0;
+
         ion-item {
             color: var(--text-color);
             --background: var(--bg-color-0);
@@ -26,9 +28,9 @@ ion-content {
             }
         }
 
-        .error {
-            font-size: 1.5rem;
-            text-align: center;
+        .empty {
+            display: flex;
+            justify-content: center;
         }
     }
 

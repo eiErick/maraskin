@@ -1,10 +1,11 @@
 import { Component, computed, effect } from '@angular/core';
-import { IonContent, IonButton, LoadingController, IonList, IonItem, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, LoadingController, IonList, IonItem, ModalController, IonSearchbar } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/menu';
 import { MenuService } from 'src/app/services/menu.service';
 import { AlertController } from '@ionic/angular';
 import { HeaderComponent } from "../../components/header/header.component";
 import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-form-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-lunch',
@@ -16,12 +17,16 @@ import { MealFormModalComponent } from 'src/app/components/meal-form-modal/meal-
     IonList,
     IonItem,
     HeaderComponent,
+    IonSearchbar,
+    FormsModule
   ],
 })
 export class LunchComponent {
   public lunches = computed(() => this.menuService.lunches());
+  public filteredLunches: Meal[] = [];
   public loadMenu = computed(() => this.menuService.loadDatabase());
   public deletedLunchId: string = '';
+  public searchTerm: string = '';
 
   public alertButtons = [
     {
@@ -41,10 +46,20 @@ export class LunchComponent {
     private loadingController: LoadingController
   ) {
     effect(() => {
+      this.search();
+      
       if (this.loadMenu()) {
         this.loadingScreen();
       }
     });
+  }
+
+  public search() {    
+    if (this.searchTerm !== '') {
+      this.filteredLunches = [ ...this.lunches().filter((lunch) => lunch.name.toUpperCase().includes(this.searchTerm.toUpperCase())) ];
+    } else {
+      this.filteredLunches = [ ...this.lunches() ];
+    }
   }
 
   private async loadingScreen() {
