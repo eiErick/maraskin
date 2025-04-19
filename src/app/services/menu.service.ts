@@ -60,7 +60,7 @@ export class MenuService {
           this.errorReq.set(false);
         }
 
-        this.menu.set(menu);
+        this.menu.set(this.organizeDays(menu));
         this.validateMenu();
       },
       error: () => {
@@ -200,6 +200,16 @@ export class MenuService {
       error: () => {
         this.presentToast(`Erro ao deletar ${meal.name} :/`, 'danger');
       }
+    });
+  }
+
+  private organizeDays(menu: Menu[]): Menu[] {
+    const daysOrder = ["segunda", "terça", "quarta", "quinta", "sexta"];
+
+    return menu.sort((a, b) => {
+      const dayAIndex = daysOrder.indexOf(a.day.toLowerCase());
+      const dayBIndex = daysOrder.indexOf(b.day.toLowerCase());
+      return dayAIndex - dayBIndex;
     });
   }
 
