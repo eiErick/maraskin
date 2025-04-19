@@ -4,6 +4,7 @@
   <ion-list [inset]="true">
     @for (snack of snacks(); track $index) {
       <ion-item class="ion-no-padding">
+      <ion-item class="ion-no-padding no-padding-end">
         <div class="snack">
           <span class="name">{{ snack.name }}</span>
           <div class="actions">

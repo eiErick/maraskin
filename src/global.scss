@@ -118,3 +118,7 @@ input[type=number] {
 ion-toggle {
     --track-background: #cccccc !important;
 }
+
+.no-padding-end {
+    --inner-padding-end: 0px;
+}
