@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, ModalController } from '@ionic/angular/standalone';
 import { SettingsComponent } from 'src/app/pages/settings/settings.component';
@@ -13,6 +14,7 @@ import { SettingsComponent } from 'src/app/pages/settings/settings.component';
     IonButton,
     IonAvatar,
     IonTitle,
+    UpperCasePipe
   ]
 })
 export class HeaderComponent {

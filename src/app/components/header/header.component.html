@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title (click)="playKiam()">{{ title() }}</ion-title>
+    <ion-title (click)="playKiam()">{{ title() | uppercase }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="openSettings()">
         <ion-avatar>
