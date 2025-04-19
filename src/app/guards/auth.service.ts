@@ -24,7 +24,6 @@ export class AuthService {
 
     this.authenticated.set(true);
     this.route.navigate(['menu']);
-    console.log('login');
   }
 
   private hasToken(): boolean {
