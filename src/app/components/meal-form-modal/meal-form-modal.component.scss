@@ -14,16 +14,17 @@ ion-header {
 }
 
 ion-content {
-    --background: var(--bg-color-0);
+    --background: var(--bg-color);
 
     .formLunch {
-        background-color: var(--bg-color-100);
+        background-color: var(--bg-color-300);
         padding: 1rem;
         border-radius: var(--radius-10);
+        border: 1px solid var(--gray);
         
         ion-item {
             color: var(--text-color);
-            --background: var(--bg-color-100);
+            --background: var(--bg-color-300);
         }
     }
 }

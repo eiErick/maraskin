@@ -1,6 +1,6 @@
 <app-header title="Maraskin" [load]="loadMenu()"/>
 
-<ion-content [fullscreen]="true" id="main-content" class="ion-page" main>
+<ion-content scroll-y="false">
   <div class="container-menu">
     @for (menu of menus(); track $index) {
       <app-card [lunches]="lunches()" [menu]="menu" [snacks]="snacks()" (changedMenu)="changeMenu($event)" />

@@ -1,16 +1,16 @@
 ion-header {
     ion-toolbar {
-        --background: var(--primary-color);
-        color: #ffffff;
-
+        --background: var(--bg-color);
+        color: var(--text-color);
+        
         ion-title {
             font-weight: 700;
         }
-
+        
         ion-buttons {
             ion-button {
                 .material-symbols-outlined, span {
-                    color: #ffffff;
+                    color: var(--text-color);
                 }
             }
         }
@@ -18,12 +18,12 @@ ion-header {
 }
 
 ion-content {
-    --background: var(--bg-color-0);
+    --background: var(--bg-color);
+    color: var(--text-color);
     
     .toggle-theme {
         padding: 1rem;
-        background-color: var(--bg-color-50);
-        border: .1rem solid var(--gray);
+        background-color: var(--bg-color-300);
         border-radius: var(--radius-30);
         display: flex;
         align-items: center;
@@ -36,8 +36,7 @@ ion-content {
         color: var(--text-color);
         padding: 1rem;
         margin-top: 1rem;
-        background-color: var(--bg-color-50);
-        border: .1rem solid var(--gray);
+        background-color: var(--bg-color-300);
 
         border-radius: var(--radius-30);
         display: flex;

@@ -1,36 +1,57 @@
 ion-content {
-    --background: var(--bg-color-0);
+    --background: var(--primary-color);
+    overflow: none;
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        overflow: none;
+        background-color: var(--bg-color);
+        border-radius: var(--radius-30) var(--radius-30) 0 0;
+        height: 100%;
+    }
 
-    ion-list {
-        margin: 0 1rem 0;
+    ion-searchbar {
+        color: var(--text-color);
+        --background: var(--bg-color-500);
+    }
 
-        ion-item {
-            --background: var(--bg-color-0);
-            color: var(--text-color);
+    .scrollable-list {
+        flex-grow: 1;
+        overflow: auto;
 
-            .lunch {
-                display: flex;
-                width: 100%;
-                justify-content: space-between;
+        ion-list {
+            margin: 0 1rem 0;
 
-                .name {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    font-size: 1.15rem;
-                }
+            ion-item {
+                --background: var(--bg-color);
+                color: var(--text-color);
 
-                .actions {
+                .lunch {
                     display: flex;
-                    gap: .5rem;
-                    cursor: pointer;
+                    width: 100%;
+                    justify-content: space-between;
+
+                    .name {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-size: 1.15rem;
+                    }
+
+                    .actions {
+                        display: flex;
+                        gap: .5rem;
+                        cursor: pointer;
+                    }
                 }
             }
-        }
 
-        .empty {
-            display: flex;
-            justify-content: center;
+            .empty {
+                display: flex;
+                justify-content: center;
+                background-color: var(--bg-color);
+            }
         }
     }
 

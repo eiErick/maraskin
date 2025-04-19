@@ -16,10 +16,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="toggle-theme">
-    <ion-item class="ion-no-padding" lines="none">
-      <ion-checkbox [(ngModel)]="isDarkMode" (ionChange)="toggleTheme()" justify="space-between">Modo escuro</ion-checkbox>      
-    </ion-item>
+  <div class="toggle-theme" >
+    <span>Modo escuro</span>
+    <ion-toggle class="toggle" [(ngModel)]="isDarkMode" (ionChange)="toggleTheme()" justify="space-between"></ion-toggle>
   </div>
 
   <div class="contributors">

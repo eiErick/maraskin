@@ -1,19 +1,20 @@
 ion-content {
-  --background: var(--bg-color-0);
-  width: 100%;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-
+  overflow: none;
+  --background: var(--primary-color);
+  
   .container-menu {
-    padding: 2rem 0 0 0;
+    overflow: auto;
+    background-color: var(--bg-color);
+    border-radius: var(--radius-30) var(--radius-30) 0 0;
+    height: 100%;
+    width: 100%;
+    padding: 2rem 0 2rem 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-wrap: wrap;
     gap: 20px;
-    margin: 4rem auto 2rem auto;
-    width: 90%;
+    width: 100%;
 
     .error {
       font-size: 1.5rem;

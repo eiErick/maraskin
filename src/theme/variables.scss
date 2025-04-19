@@ -3,54 +3,56 @@
 
 :root {
     --gray: #74777F;
-    --bg-color-0: #ffffff;
-    --bg-color-100: #f2f2f2;
-    --bg-color-300: #f2f2f2;
-    --bg-color-500: #e6e6e6;
-    --bg-color-700: #cccccc;
-    --bg-color-900: #b3b3b3;
-    --primary-color: #FF6600;
-    --pg-color-100: #ffe6d5;
-    --pg-color-300: #ffccaa;
-    --pg-color-500: #ff9966;
-    --pg-color-700: #ff8533;
-    --pg-color-900: #ff6600;
+    --bg-color: #FAFAFB;
+    --bg-color-0: #FFFFFF;
+    --bg-color-100: #F5F5F7;
+    --bg-color-300: #EAEAEC;
+    --bg-color-500: #DADADF;
+    --bg-color-700: #BFBFC6;
+    --bg-color-900: #A3A3AD;
+    --primary-color: #423671;
+    --pg-color-100: #E7E4F2;
+    --pg-color-300: #C2BDE1;
+    --pg-color-500: #9B94B0;
+    --pg-color-700: #6D65AA;
+    --pg-color-900: #423671;
     --text-color: #000000;
     --radius-10: 0.5rem;
     --radius-30: 1rem;
     --radius-50: 2rem;
 
-    --ion-color-primary: #ff6600;
+    --ion-color-primary: #423671;
     --ion-color-primary-rgb: 255, 102, 0;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #e05a00;
-    --ion-color-primary-tint: #ff751a;
+    --ion-color-primary-shade: #423671;
+    --ion-color-primary-tint: #423671;
 }
 
 :root.app-dark {
     --gray: #74777F;
+    --bg-color: #222226; 
     --bg-color-0: #000000;
-    --bg-color-100: #1e1e1e;
-    --bg-color-300: #2a2a2a;
-    --bg-color-500: #383838;
-    --bg-color-700: #4a4a4a;
-    --bg-color-900: #5c5c5c;
-    --primary-color: #FF6600;
-    --pg-color-100: #1a0a00;
-    --pg-color-300: #331a00;
-    --pg-color-500: #994d00;
-    --pg-color-700: #cc5c00;
-    --pg-color-900: #ff6600;
-    --text-color: #ffffff;
+    --bg-color-100: #16161A;
+    --bg-color-300: #1F1F24;
+    --bg-color-500: #333337;
+    --bg-color-700: #45454C;
+    --bg-color-900: #5C5C63;
+    --primary-color: #7662DA;
+    --pg-color-100: #EDEAFD;
+    --pg-color-300: #C8C1F3;
+    --pg-color-500: #A095E6;
+    --pg-color-700: #8975E0;
+    --pg-color-900: #7662DA;
+    --text-color: #FFFFFF;
     --radius-10: 0.5rem;
     --radius-30: 1rem;
     --radius-50: 2rem;
 
-    --ion-color-primary: #ff6600;
+    --ion-color-primary: #7662DA;
     --ion-color-primary-rgb: 255, 102, 0;
-    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast: #FFFFFF;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #e05a00;
-    --ion-color-primary-tint: #ff751a;
+    --ion-color-primary-shade: #7662DA;
+    --ion-color-primary-tint: #7662DA;
 }

@@ -1,27 +1,31 @@
 <app-header title="Merenda" [load]="loadMenu()"/>
 
-<ion-content>
-  <ion-searchbar [(ngModel)]="searchTerm" [debounce]="300" (ionInput)="search()" placeholder="Pesquisar" />
+<ion-content scroll-y="false">
+  <div class="container">
+    <ion-searchbar [(ngModel)]="searchTerm" [debounce]="300" (ionInput)="search()" placeholder="Pesquisar" />
 
-  <ion-list [inset]="true">
-    @for (snack of filtredSnacks; track $index) {
-      <ion-item class="ion-no-padding no-padding-end">
-        <div class="snack">
-          <span class="name">{{ snack.name }}</span>
-          <div class="actions">
-            <span class="material-symbols-outlined" id="open-modal" expand="block" (click)="openEditSnack(snack)">edit</span>
-            <span class="material-symbols-outlined" (click)="presentDeleteConfirm(snack)">delete</span>
-          </div>
-        </div>
-      </ion-item>
-    } @empty {
-      @if (searchTerm !== '') {
-        <span class="empty">Nenhum almoço encontrado :/</span>
-      }
-    }
-  </ion-list>
+    <div class="scrollable-list">
+      <ion-list [inset]="true">
+        @for (snack of filtredSnacks; track $index) {
+          <ion-item class="ion-no-padding no-padding-end">
+            <div class="snack">
+              <span class="name">{{ snack.name }}</span>
+              <div class="actions">
+                <span class="material-symbols-outlined" id="open-modal" expand="block" (click)="openEditSnack(snack)">edit</span>
+                <span class="material-symbols-outlined" (click)="presentDeleteConfirm(snack)">delete</span>
+              </div>
+            </div>
+          </ion-item>
+        } @empty {
+          @if (searchTerm !== '') {
+            <span class="empty">Nenhum almoço encontrado :/</span>
+          }
+        }
+      </ion-list>
+    </div>
 
-  <ion-button (click)="openCreateSnack()">
-    <span class="material-symbols-outlined">add</span>
-  </ion-button>
+    <ion-button (click)="openCreateSnack()">
+      <span class="material-symbols-outlined">add</span>
+    </ion-button>
+  </div>
 </ion-content>

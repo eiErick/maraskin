@@ -1,43 +1,64 @@
 ion-content {
-    --background: var(--bg-color-0);
+    --background: var(--primary-color);
+    overflow: none;
     
-    ion-list {   
-        margin: 0 1rem 0;
-
-        ion-item {
+    .container {
+        display: flex;
+        flex-direction: column;
+        overflow: none;
+        background-color: var(--bg-color);
+        border-radius: var(--radius-30) var(--radius-30) 0 0;
+        height: 100%;
+        
+        ion-searchbar {
             color: var(--text-color);
-            --background: var(--bg-color-0);
+            --background: var(--bg-color-500);
+        }
+            
+        .scrollable-list {
+            flex-grow: 1;
+            overflow: auto;
 
-            .snack {
-                display: flex;
-                width: 100%;
-                justify-content: space-between;
+            ion-list {
+                margin: 0 1rem 0;
 
-                .name {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    font-size: 1.15rem;
+                ion-item {
+                    color: var(--text-color);
+                    --background: var(--bg-color);
+
+                    .snack {
+                        display: flex;
+                        width: 100%;
+                        justify-content: space-between;
+
+                        .name {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            font-size: 1.15rem;
+                        }
+
+                        .actions {
+                            display: flex;
+                            gap: .5rem;
+                            cursor: pointer;
+                        }
+                    }
                 }
 
-                .actions {
+                .empty {
                     display: flex;
-                    gap: .5rem;
-                    cursor: pointer;
+                    justify-content: center;
+                    background-color: var(--bg-color);
                 }
             }
         }
 
-        .empty {
-            display: flex;
-            justify-content: center;
+        ion-button {
+            position: fixed;
+            top: 100%;
+            left: 100%;
+            transform: translate(-120%, -120%);
         }
-    }
-
-    ion-button {
-        position: fixed;
-        top: 100%;
-        left: 100%;
-        transform: translate(-120%, -120%);
     }
 }
