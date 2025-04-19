@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
-StatusBar.setBackgroundColor({ color: '#ff6600' });
-StatusBar.setStyle({ style: Style.Dark });
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -26,7 +23,16 @@ export class AppComponent {
 
     if (storedTheme) {
       const theme = JSON.parse(storedTheme);
-      theme ? document.documentElement.classList.add('app-dark') : document.documentElement.classList.add('app-light')
+
+      if (theme) {
+        document.documentElement.classList.add('app-dark');
+        StatusBar.setBackgroundColor({ color: '#7662DA' });
+        StatusBar.setStyle({ style: Style.Dark });
+      } else {
+        document.documentElement.classList.add('app-light');
+        StatusBar.setBackgroundColor({ color: '#423671' });
+        StatusBar.setStyle({ style: Style.Dark });
+      }
     } else {
       document.documentElement.classList.add('app-light');
       localStorage.setItem('dark-mode', 'false');

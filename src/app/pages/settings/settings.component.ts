@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { StatusBar, Style } from '@capacitor/status-bar';
+
 
 @Component({
   selector: 'app-settings',
@@ -63,9 +65,15 @@ export class SettingsComponent implements OnDestroy {
     if (this.isDarkMode) {
       document.documentElement.classList.remove('app-light');
       document.documentElement.classList.add('app-dark');
+
+      StatusBar.setBackgroundColor({ color: '#7662DA' });
+      StatusBar.setStyle({ style: Style.Dark });      
     } else {
       document.documentElement.classList.remove('app-dark');
       document.documentElement.classList.add('app-light');
+      
+      StatusBar.setBackgroundColor({ color: '#423671' });
+      StatusBar.setStyle({ style: Style.Dark });
     }
 
     localStorage.setItem('dark-mode', this.isDarkMode.toString());
